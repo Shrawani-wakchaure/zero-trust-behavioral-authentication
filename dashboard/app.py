@@ -1,11 +1,10 @@
 """
 AegisTrust: Intelligent Zero-Trust Behavioral Authentication Dashboard.
-Futuristic Cyber-Operations Center inspired by Cosmic Glassmorphism & Blueprint UI Design.
+Interactive Demonstration & Security Operations Center for Public Cloud Infrastructures.
 """
 import sys
 from pathlib import Path
-from datetime import datetime, timedelta
-import random
+from datetime import datetime
 import pandas as pd
 import numpy as np
 import streamlit as st
@@ -26,186 +25,145 @@ from simulation.attack_scenarios import PRESET_SCENARIOS
 
 # Page Configuration
 st.set_page_config(
-    page_title="AegisTrust | Zero-Trust Operations Center",
+    page_title="AegisTrust | Zero-Trust Behavioral Authentication",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Futuristic Cyber / Cosmic Blueprint Styling
+# Custom Styling (Modern Dark Glassmorphic Dashboard Design)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
     html, body, [class*="css"] {
         font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    code, pre, .mono-font {
+    code, pre {
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Background and Glassmorphism */
+    /* Subtle Dark Theme Background */
     .stApp {
-        background: radial-gradient(circle at 15% 15%, #0d172e 0%, #060913 60%, #020409 100%);
+        background: radial-gradient(circle at 10% 10%, #0d172e 0%, #070b16 55%, #03050a 100%);
         color: #e2e8f0;
     }
 
-    /* Blueprint Cyber Border Containers */
-    .cyber-card {
-        background: rgba(13, 22, 44, 0.72);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border: 1px solid rgba(0, 242, 254, 0.22);
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55), inset 0 0 12px rgba(0, 242, 254, 0.05);
-        margin-bottom: 16px;
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    /* Polished Metric & KPI Card */
+    div[data-testid="stMetric"] {
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(56, 189, 248, 0.16);
+        border-radius: 12px;
+        padding: 16px 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s ease, border-color 0.2s ease;
     }
-    .cyber-card:hover {
-        border-color: rgba(0, 242, 254, 0.5);
-        box-shadow: 0 10px 40px 0 rgba(0, 242, 254, 0.15);
+    div[data-testid="stMetric"]:hover {
+        border-color: rgba(56, 189, 248, 0.4);
+        transform: translateY(-2px);
     }
-
-    .cyber-card-danger {
-        background: rgba(36, 12, 21, 0.75);
-        border: 1px solid rgba(239, 68, 68, 0.45);
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0 8px 32px 0 rgba(239, 68, 68, 0.2);
-        margin-bottom: 16px;
+    div[data-testid="stMetric"] label {
+        color: #94a3b8 !important;
+        font-weight: 500;
+        font-size: 0.85rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
     }
-
-    .cyber-card-warning {
-        background: rgba(38, 25, 11, 0.75);
-        border: 1px solid rgba(245, 158, 11, 0.45);
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0 8px 32px 0 rgba(245, 158, 11, 0.2);
-        margin-bottom: 16px;
+    div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
+        font-weight: 700;
+        font-size: 2rem;
+        color: #f8fafc;
     }
 
-    .cyber-card-success {
-        background: rgba(11, 35, 27, 0.75);
-        border: 1px solid rgba(16, 185, 129, 0.45);
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.2);
-        margin-bottom: 16px;
+    /* Modern Styled Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+        background: rgba(15, 23, 42, 0.5);
+        padding: 8px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(51, 65, 85, 0.4);
+    }
+    .stTabs [data-baseweb="tab"] {
+        padding: 10px 20px;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-weight: 500;
+        font-size: 0.92rem;
+        transition: all 0.2s ease;
+        border: none;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        color: #38bdf8;
+        background: rgba(56, 189, 248, 0.08);
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(99, 102, 241, 0.18) 100%) !important;
+        color: #38bdf8 !important;
+        border: 1px solid rgba(56, 189, 248, 0.35) !important;
+        box-shadow: 0 4px 14px rgba(56, 189, 248, 0.12);
     }
 
-    /* Glowing Status Badges */
-    .glow-badge-emerald {
-        background: rgba(16, 185, 129, 0.15);
+    /* Status Badges */
+    .badge-allow {
+        background: rgba(16, 185, 129, 0.18);
         color: #34d399;
         border: 1px solid rgba(52, 211, 153, 0.4);
-        padding: 6px 14px;
-        border-radius: 9999px;
+        padding: 5px 12px;
+        border-radius: 8px;
         font-weight: 600;
         font-size: 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 0 14px rgba(16, 185, 129, 0.3);
     }
-    .glow-badge-amber {
-        background: rgba(245, 158, 11, 0.15);
+    .badge-challenge {
+        background: rgba(245, 158, 11, 0.18);
         color: #fbbf24;
         border: 1px solid rgba(251, 191, 36, 0.4);
-        padding: 6px 14px;
-        border-radius: 9999px;
+        padding: 5px 12px;
+        border-radius: 8px;
         font-weight: 600;
         font-size: 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 0 14px rgba(245, 158, 11, 0.3);
     }
-    .glow-badge-crimson {
-        background: rgba(239, 68, 68, 0.15);
+    .badge-revoke {
+        background: rgba(239, 68, 68, 0.18);
         color: #f87171;
         border: 1px solid rgba(248, 113, 113, 0.4);
-        padding: 6px 14px;
-        border-radius: 9999px;
+        padding: 5px 12px;
+        border-radius: 8px;
         font-weight: 600;
         font-size: 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 0 16px rgba(239, 68, 68, 0.4);
     }
 
-    /* Live Telemetry Pulse Indicator */
-    .live-dot {
-        height: 10px;
-        width: 10px;
-        background-color: #00f2fe;
-        border-radius: 50%;
-        display: inline-block;
-        box-shadow: 0 0 10px #00f2fe;
-        animation: pulse-ring 1.8s infinite;
+    /* Streamlit Buttons */
+    .stButton > button {
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: 1px solid rgba(56, 189, 248, 0.3);
     }
-    @keyframes pulse-ring {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); }
-        70% { transform: scale(1.15); box-shadow: 0 0 0 9px rgba(0, 242, 254, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+    .stButton > button:hover {
+        box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+        border-color: #38bdf8;
     }
 
-    /* Futuristic Monospace Tags */
-    .blueprint-tag {
+    /* Header Accent */
+    .header-badge {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.78rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
         color: #38bdf8;
         background: rgba(56, 189, 248, 0.1);
         border: 1px solid rgba(56, 189, 248, 0.25);
         padding: 3px 8px;
         border-radius: 4px;
-        margin-right: 6px;
-    }
-
-    /* Terminal Console Window */
-    .cyber-terminal {
-        background: #020612;
-        border: 1px solid #1e293b;
-        border-left: 3px solid #00f2fe;
-        border-radius: 8px;
-        padding: 14px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.82rem;
-        color: #94a3b8;
-        line-height: 1.6;
-        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Enhanced Tabs */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 12px;
-        background-color: rgba(15, 23, 42, 0.5);
-        padding: 8px;
-        border-radius: 12px;
-        border: 1px solid rgba(51, 65, 85, 0.5);
-    }
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 8px;
-        padding: 10px 22px;
-        color: #94a3b8;
-        font-weight: 500;
-        transition: all 0.2s ease;
-    }
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%) !important;
-        color: #00f2fe !important;
-        border: 1px solid rgba(0, 242, 254, 0.4) !important;
-        box-shadow: 0 4px 16px rgba(0, 242, 254, 0.15);
+        margin-right: 8px;
+        letter-spacing: 0.05em;
     }
 </style>
 """, unsafe_allow_html=True)
 
 
-# Initialize Core ML & Policy Engine
+# Initialize Session State
 @st.cache_resource
 def load_core_engine():
     pipeline = FeaturePipeline()
@@ -218,9 +176,9 @@ def load_core_engine():
 
 pipeline, detector, risk_engine = load_core_engine()
 
-# Initialize Persistent Session State
 if "enforcer" not in st.session_state:
     st.session_state["enforcer"] = PolicyEnforcer()
+    # Populate initial realistic active sessions
     generator = TelemetryGenerator(seed=99)
     sample_normal = generator.generate_baseline(n_samples=5)
     for _, row in sample_normal.iterrows():
@@ -232,61 +190,41 @@ if "enforcer" not in st.session_state:
 
 enforcer = st.session_state["enforcer"]
 
-if "selected_scenario_key" not in st.session_state:
-    st.session_state["selected_scenario_key"] = "normal_admin"
-
-# ==============================================================================
-# SIDEBAR: ADVANCED TELEMETRY CONTROL
-# ==============================================================================
+# Sidebar Configuration & Telemetry Inputs
 with st.sidebar:
-    st.markdown("""
-    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-        <span class="live-dot"></span>
-        <span style="font-weight: 700; letter-spacing: 0.1em; color: #00f2fe; font-size: 1.1rem;">AEGISTRUST SOC</span>
-    </div>
-    <div style="color: #64748b; font-size: 0.8rem; margin-bottom: 14px;">
-        NIST SP 800-207 Zero-Trust Behavioral Guard
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("<span class='blueprint-tag'>CORE_ALGO</span> Isolation Forest (n=150)<br><span class='blueprint-tag'>PDP_MODE</span> Sub-15ms Active Telemetry", unsafe_allow_html=True)
+    st.image("https://img.icons8.com/fluency/96/shield.png", width=64)
+    st.title("AegisTrust Zero-Trust")
+    st.caption("Continuous Behavioral Post-Auth Defense for Public Cloud Registries")
     st.divider()
 
-    st.subheader("🎯 Threat Vector Presets")
-    scenario_keys = list(PRESET_SCENARIOS.keys())
-
-    # Dropdown synchronized with state
-    current_key = st.selectbox(
-        "Choose Target Workload:",
-        options=scenario_keys,
-        index=scenario_keys.index(st.session_state["selected_scenario_key"]),
+    st.subheader("🎯 Scenario Selector")
+    scenario_choice = st.selectbox(
+        "Choose Pre-configured Test Vector:",
+        options=list(PRESET_SCENARIOS.keys()),
         format_func=lambda k: PRESET_SCENARIOS[k]["title"]
     )
-    if current_key != st.session_state["selected_scenario_key"]:
-        st.session_state["selected_scenario_key"] = current_key
-        st.rerun()
 
-    active_preset = PRESET_SCENARIOS[st.session_state["selected_scenario_key"]]
-    base_t = active_preset["telemetry"]
-
+    active_preset = PRESET_SCENARIOS[scenario_choice]
     st.info(f"{active_preset['icon']} **{active_preset['title']}**\n\n{active_preset['description']}")
 
     st.divider()
-    st.subheader("⚡ Live Behavioral Probes")
-    st.caption("Fine-tune specific telemetry dimensions in real-time:")
+    st.subheader("⚙️ Live Telemetry Sliders")
+    st.caption("Modify behavioral signals in real time:")
+
+    base_t = active_preset["telemetry"]
 
     col_sb1, col_sb2 = st.columns(2)
     with col_sb1:
-        s_hour = st.slider("Hour of Day", 0.0, 24.0, float(base_t["hour_of_day"]), 0.5)
-        s_api = st.slider("API Calls/min", 1.0, 300.0, float(base_t["api_calls_per_min"]), 5.0)
-        s_download = st.slider("Egress (MB)", 0.5, 6000.0, float(base_t["data_download_mb"]), 50.0)
-        s_geo_vel = st.slider("IP Hop (km/h)", 0.0, 60000.0, float(base_t["geo_velocity_kmh"]), 250.0)
+        s_hour = st.slider("Hour of Day (24h)", 0.0, 24.0, float(base_t["hour_of_day"]), 0.5)
+        s_api = st.slider("API Calls / Min", 1.0, 300.0, float(base_t["api_calls_per_min"]), 5.0)
+        s_download = st.slider("Data Egress (MB)", 0.5, 6000.0, float(base_t["data_download_mb"]), 50.0)
+        s_geo_vel = st.slider("IP Hop Velocity (km/h)", 0.0, 50000.0, float(base_t["geo_velocity_kmh"]), 250.0)
 
     with col_sb2:
-        s_sensitive = st.slider("Sensitive Ratio", 0.0, 1.0, float(base_t["sensitive_endpoint_ratio"]), 0.05)
-        s_failed = st.slider("403 Forbidden", 0, 10, int(base_t["failed_auth_attempts"]), 1)
-        s_duration = st.slider("Duration (min)", 1.0, 480.0, float(base_t["session_duration_min"]), 10.0)
-        s_entropy = st.slider("Entropy", 0.1, 1.0, float(base_t["request_entropy"]), 0.05)
+        s_sensitive = st.slider("Sensitive Endpoint Ratio", 0.0, 1.0, float(base_t["sensitive_endpoint_ratio"]), 0.05)
+        s_failed = st.slider("Failed Auth / 403s", 0, 10, int(base_t["failed_auth_attempts"]), 1)
+        s_duration = st.slider("Session Duration (min)", 1.0, 480.0, float(base_t["session_duration_min"]), 10.0)
+        s_entropy = st.slider("Request Entropy", 0.1, 1.0, float(base_t["request_entropy"]), 0.05)
 
     eval_telemetry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -308,148 +246,76 @@ with st.sidebar:
         "attack_type": active_preset["title"]
     }
 
-# ==============================================================================
-# HEADER HERO: FUTURISTIC BLUEPRINT & KPI STRIP
-# ==============================================================================
+# Main Application Layout
+st.title("🛡️ Intelligent Zero-Trust Behavioral Authentication")
 st.markdown("""
-<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid rgba(0, 242, 254, 0.2); padding-bottom: 18px;">
-    <div>
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-            <span class="live-dot"></span>
-            <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: #00f2fe; letter-spacing: 0.12em;">ZERO-TRUST TELEMETRY SHIELD // PUBLIC CLOUD REGISTRIES</span>
-        </div>
-        <h1 style="margin: 0; font-size: 2.2rem; font-weight: 700; background: linear-gradient(90deg, #ffffff 0%, #38bdf8 60%, #00f2fe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            Intelligent Zero-Trust Behavioral Authentication
-        </h1>
-        <div style="color: #94a3b8; font-size: 0.95rem; margin-top: 4px;">
-            Continuous, AI-driven post-authentication behavioral profiling & automated step-up enforcement.
-        </div>
-    </div>
-    <div style="text-align: right;">
-        <span class="blueprint-tag">SYSTEM ONLINE</span>
-        <span class="blueprint-tag">LATENCY: 12ms</span>
-        <span class="blueprint-tag">POLICY: NIST SP 800-207</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+**Continuous Risk Assessment for Critical Public Infrastructure**  
+*Traditional perimeter security trusts any session that passes initial MFA. AegisTrust continuously scores post-authentication telemetry using unsupervised Isolation Forest ML and enforces instantaneous zero-trust lockouts or step-up challenges.*
+""")
 
-# Top KPI Metric Cards (Inspired by Pin 3 Modern SOC Dashboard)
-kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
+# Top Level KPI Banner
+c1, c2, c3, c4 = st.columns(4)
 active_count = len([s for s in enforcer.active_sessions.values() if s["state"] == "ACTIVE"])
 challenge_count = len([s for s in enforcer.active_sessions.values() if s["state"] == "CHALLENGED"])
 revoked_count = len([s for s in enforcer.active_sessions.values() if s["state"] == "REVOKED"])
 
-with kpi_col1:
-    st.markdown("""
-    <div class="cyber-card">
-        <div style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Monitored Sessions</div>
-        <div style="font-size: 2.1rem; font-weight: 700; color: #f8fafc; margin: 4px 0;">{}</div>
-        <div style="color: #38bdf8; font-size: 0.82rem;">⚡ Real-time Telemetry Stream</div>
-    </div>
-    """.format(len(enforcer.active_sessions)), unsafe_allow_html=True)
+with c1:
+    st.metric("Total Monitored Sessions", len(enforcer.active_sessions), delta="Real-time")
+with c2:
+    st.metric("Trusted Active Sessions", active_count, delta="Zero Friction", delta_color="normal")
+with c3:
+    st.metric("Step-Up Challenged", challenge_count, delta="MFA Pending", delta_color="off")
+with c4:
+    st.metric("Revoked / Quarantined", revoked_count, delta="Threats Blocked", delta_color="inverse")
 
-with kpi_col2:
-    st.markdown("""
-    <div class="cyber-card">
-        <div style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Trusted In-Bound</div>
-        <div style="font-size: 2.1rem; font-weight: 700; color: #34d399; margin: 4px 0;">{}</div>
-        <div style="color: #10b981; font-size: 0.82rem;">🟢 Zero-Friction Allow</div>
-    </div>
-    """.format(active_count), unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
-with kpi_col3:
-    st.markdown("""
-    <div class="cyber-card">
-        <div style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Step-Up Challenged</div>
-        <div style="font-size: 2.1rem; font-weight: 700; color: #fbbf24; margin: 4px 0;">{}</div>
-        <div style="color: #f59e0b; font-size: 0.82rem;">🟡 Mandatory TOTP / Biometric</div>
-    </div>
-    """.format(challenge_count), unsafe_allow_html=True)
-
-with kpi_col4:
-    st.markdown("""
-    <div class="cyber-card">
-        <div style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Quarantined Breaches</div>
-        <div style="font-size: 2.1rem; font-weight: 700; color: #f87171; margin: 4px 0;">{}</div>
-        <div style="color: #ef4444; font-size: 0.82rem;">🔴 Instant Revoke & Lock</div>
-    </div>
-    """.format(revoked_count), unsafe_allow_html=True)
-
-# Main Navigation Tabs
-tab_live, tab_radar, tab_sessions, tab_model, tab_siem, tab_pitch = st.tabs([
+# Tabs
+tab_live, tab_sessions, tab_model, tab_siem, tab_pitch = st.tabs([
     "🚀 Live Simulation & Enforcement",
-    "🕸️ Behavioral Radar Profiler",
-    "🛰️ Active Threat Geo-Map",
-    "📊 Baseline Diagnostics",
-    "📜 SIEM Event Stream",
-    "🎤 Panel Presentation & Pitch"
+    "🛰️ Active Sessions & Incident Map",
+    "📊 Baseline Telemetry & ML Diagnostics",
+    "📜 SIEM Audit Trail & Event Stream",
+    "🎤 Panel Presentation & Defense Pitch"
 ])
 
 # ==============================================================================
-# TAB 1: LIVE SIMULATION & DYNAMIC ZERO-TRUST ENFORCEMENT
+# TAB 1: LIVE ATTACK SIMULATOR & POLICY ENFORCEMENT
 # ==============================================================================
 with tab_live:
-    # Interactive Visual Quick-Selector Cards across top of Tab 1
-    st.markdown("##### ⚡ Quick Threat Scenario Launcher")
-    q_col1, q_col2, q_col3, q_col4, q_col5 = st.columns(5)
+    st.subheader("Real-Time Behavioral Telemetry Evaluation")
 
-    with q_col1:
-        if st.button("🟢 1. Routine Workday", use_container_width=True, help="Normal DBA performing routine morning maintenance"):
-            st.session_state["selected_scenario_key"] = "normal_admin"
-            st.rerun()
-
-    with q_col2:
-        if st.button("🚨 2. Mass Exfiltration", use_container_width=True, help="Stolen creds used at 3:15 AM to dump 4.8 GB citizen records"):
-            st.session_state["selected_scenario_key"] = "mass_exfiltration"
-            st.rerun()
-
-    with q_col3:
-        if st.button("⚡ 3. Cookie Hijack", use_container_width=True, help="Session cookie stolen; impossible travel from Romania"):
-            st.session_state["selected_scenario_key"] = "impossible_travel"
-            st.rerun()
-
-    with q_col4:
-        if st.button("🕵️ 4. Low & Slow APT", use_container_width=True, help="Stealth queries via TOR at night harvesting PII"):
-            st.session_state["selected_scenario_key"] = "slow_and_low"
-            st.rerun()
-
-    with q_col5:
-        if st.button("🔍 5. Internal Recon", use_container_width=True, help="Probing restricted admin endpoints with 403 spikes"):
-            st.session_state["selected_scenario_key"] = "privilege_recon"
-            st.rerun()
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Perform Live Evaluation
+    # Evaluate the telemetry
     x_input = pipeline.transform(eval_telemetry)
     _, anomaly_intensity = detector.predict_anomaly(x_input)
     risk_result = risk_engine.calculate_risk(eval_telemetry, anomaly_intensity[0])
+
+    # Register/Update session state
     session_record = enforcer.register_or_update_session(eval_telemetry, risk_result)
 
-    # Two Column Layout: Futuristic Gauge + Decision Banner
-    col_gauge, col_decision = st.columns([1.1, 1.4])
+    col_gauge, col_decision = st.columns([1, 1.4])
 
     with col_gauge:
-        # Radial Gauge Meter with Cosmic Neon Arc Styling
+        # Plotly Gauge Chart for Risk Score
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=risk_result["risk_score"],
-            title={"text": "CONTINUOUS RISK METER", "font": {"size": 18, "color": "#94a3b8", "family": "JetBrains Mono"}},
-            number={"suffix": "/100", "font": {"size": 42, "color": risk_result["status_color"], "family": "Space Grotesk"}},
+            title={"text": "Continuous Risk Score", "font": {"size": 22, "color": "#f8fafc"}},
+            number={"suffix": "/100", "font": {"size": 36, "color": risk_result["status_color"]}},
             gauge={
-                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#64748b", "tickfont": {"size": 12}},
-                "bar": {"color": risk_result["status_color"], "thickness": 0.26},
-                "bgcolor": "rgba(15, 23, 42, 0.6)",
+                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#94a3b8"},
+                "bar": {"color": risk_result["status_color"], "thickness": 0.28},
+                "bgcolor": "#1e293b",
                 "borderwidth": 1,
-                "bordercolor": "rgba(51, 65, 85, 0.6)",
+                "bordercolor": "#475569",
                 "steps": [
-                    {"range": [0, RISK_THRESHOLD_ALLOW], "color": "rgba(16, 185, 129, 0.15)"},
-                    {"range": [RISK_THRESHOLD_ALLOW, RISK_THRESHOLD_CHALLENGE], "color": "rgba(245, 158, 11, 0.2)"},
-                    {"range": [RISK_THRESHOLD_CHALLENGE, 100], "color": "rgba(239, 68, 68, 0.25)"}
+                    {"range": [0, RISK_THRESHOLD_ALLOW], "color": "rgba(16, 185, 129, 0.2)"},
+                    {"range": [RISK_THRESHOLD_ALLOW, RISK_THRESHOLD_CHALLENGE], "color": "rgba(245, 158, 11, 0.25)"},
+                    {"range": [RISK_THRESHOLD_CHALLENGE, 100], "color": "rgba(239, 68, 68, 0.3)"}
                 ],
                 "threshold": {
-                    "line": {"color": "#ffffff", "width": 3},
-                    "thickness": 0.85,
+                    "line": {"color": "white", "width": 3},
+                    "thickness": 0.8,
                     "value": risk_result["risk_score"]
                 }
             }
@@ -458,67 +324,44 @@ with tab_live:
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
             height=300,
-            margin=dict(l=20, r=20, t=50, b=20)
+            margin=dict(l=25, r=25, t=50, b=25)
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
 
-        st.markdown(f"""
-        <div style="display: flex; justify-content: space-around; background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 8px; border: 1px solid rgba(51, 65, 85, 0.4); font-size: 0.85rem;">
-            <div><span style="color: #64748b;">ML Baseline Score:</span> <strong style="color: #38bdf8;">{risk_result['ml_contribution']:.1f} pts</strong></div>
-            <div><span style="color: #64748b;">Contextual Penalty:</span> <strong style="color: #f59e0b;">{risk_result['heuristic_contribution']:.1f} pts</strong></div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.caption(f"**ML Baseline Contribution:** {risk_result['ml_contribution']:.1f} pts | **Heuristic Trigger Contribution:** {risk_result['heuristic_contribution']:.1f} pts")
 
     with col_decision:
         action = risk_result["action"]
-        card_class = "cyber-card-success" if action == "ALLOW" else ("cyber-card-warning" if action == "CHALLENGE" else "cyber-card-danger")
+        if action == "ALLOW":
+            st.success(f"### ✅ Policy Action: {action} (Low Risk)")
+        elif action == "CHALLENGE":
+            st.warning(f"### ⚠️ Policy Action: {action} (Step-Up MFA Required)")
+        else:
+            st.error(f"### 🚨 Policy Action: {action} (Session Quarantined)")
 
-        st.markdown(f"""
-        <div class="{card_class}">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; letter-spacing: 0.1em; color: #94a3b8;">ZERO-TRUST PDP ENFORCEMENT VERDICT</span>
-                <span class="{('glow-badge-emerald' if action == 'ALLOW' else ('glow-badge-amber' if action == 'CHALLENGE' else 'glow-badge-crimson'))}">
-                    {action} // TIER: {risk_result['risk_tier']}
-                </span>
-            </div>
-            <h3 style="margin: 0 0 8px 0; color: #f8fafc; font-size: 1.35rem;">{risk_result['action_description']}</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.88rem; color: #cbd5e1; margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <div><strong>Admin Identity:</strong> <code>{eval_telemetry['user_id']}</code></div>
-                <div><strong>Role:</strong> {eval_telemetry['role']}</div>
-                <div><strong>Session ID:</strong> <code>{eval_telemetry['session_id']}</code></div>
-                <div><strong>Ingress Point:</strong> {eval_telemetry['city']} ({eval_telemetry['asn']})</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"**Zero-Trust Posture:** {risk_result['action_description']}")
+        st.markdown(f"**User:** `{eval_telemetry['user_id']}` ({eval_telemetry['role']})")
+        st.markdown(f"**Session ID:** `{eval_telemetry['session_id']}` | **Location:** `{eval_telemetry['city']}` ({eval_telemetry['asn']})")
 
         if risk_result["active_triggers"]:
-            st.markdown("**🚨 Active Anomaly Triggers:**")
+            st.markdown("**Active Behavioral Policy Triggers:**")
             for trig in risk_result["active_triggers"]:
                 st.markdown(f"- 🔴 `{trig}`")
         else:
-            st.markdown("🟢 *All behavioral telemetry dimensions comply with normal administrative baselines.*")
+            st.markdown("- 🟢 All behavioral metrics within normal operating bounds.")
 
-        # Interactive Step-Up Challenge (If Challenged)
+        # Interactive Step-Up Challenge Box
         if session_record["state"] == "CHALLENGED":
-            st.markdown("""
-            <div class="cyber-card" style="border-color: #f59e0b; background: rgba(38, 25, 11, 0.8);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h4 style="margin: 0; color: #fbbf24;">🔐 Step-Up MFA Challenge Required</h4>
-                    <span class="glow-badge-amber">VERIFICATION PENDING</span>
-                </div>
-                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 8px 0 14px 0;">
-                    Anomalous behavior detected. Sensitive database queries have been throttled. Complete step-up authentication to restore full session trust:
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-
-            col_otp1, col_otp2 = st.columns([1.5, 1])
+            st.markdown("---")
+            st.markdown("#### 🔐 Step-Up Authentication Challenge (Demo Sandbox)")
+            st.caption("The user has exhibited anomalous behavior. Enter simulated 6-digit TOTP code (`123456`) to restore trust:")
+            col_otp1, col_otp2 = st.columns([2, 1])
             with col_otp1:
-                otp_code = st.text_input("Enter 6-Digit TOTP Token:", placeholder="123456", key="otp_input")
+                otp_code = st.text_input("Enter 6-Digit OTP Code:", placeholder="123456", key="otp_input")
             with col_otp2:
                 st.write("")
                 st.write("")
-                if st.button("🔑 Verify & Clear Challenge", type="primary", use_container_width=True):
+                if st.button("Verify OTP", type="primary"):
                     verify_res = enforcer.submit_step_up_mfa(session_record["session_id"], otp_code)
                     if verify_res["success"]:
                         st.success(verify_res["message"])
@@ -528,168 +371,59 @@ with tab_live:
 
     st.divider()
 
-    # Dynamic 15-Minute Risk Evolution Graph
-    st.subheader("📈 Real-Time Dynamic Risk Horizon (Last 15 Minutes)")
-    st.caption("Illustrates the continuous drift of the session's risk score from initial login to present.")
+    # Explainable AI (XAI) Attribution Breakdown
+    st.subheader("🔍 Explainable AI (XAI): Feature Attribution & Deviation from Baseline")
+    st.caption("Breaks down standard deviations from administrative norm for auditor transparency.")
 
-    # Generate synthetic time-series showing risk evolution
-    time_pts = [datetime.now() - timedelta(minutes=15 - i) for i in range(16)]
-    current_risk = risk_result["risk_score"]
+    explanations = pipeline.explain_deviations(eval_telemetry)
+    df_exp = pd.DataFrame(explanations)
 
-    if current_risk > 65:
-        # Rapid rise
-        risks_over_time = [random.uniform(5.0, 18.0) for _ in range(8)]
-        risks_over_time += [random.uniform(25.0, 50.0) for _ in range(4)]
-        risks_over_time += [current_risk * 0.85, current_risk * 0.95, current_risk, current_risk]
-    elif current_risk > 35:
-        # Moderate rise
-        risks_over_time = [random.uniform(5.0, 15.0) for _ in range(10)]
-        risks_over_time += [random.uniform(20.0, 38.0) for _ in range(3)]
-        risks_over_time += [current_risk * 0.9, current_risk * 0.95, current_risk]
-    else:
-        # Stationary low
-        risks_over_time = [random.uniform(2.0, max(current_risk + 4, 12.0)) for _ in range(15)] + [current_risk]
-
-    df_trend = pd.DataFrame({
-        "Timestamp": [t.strftime("%H:%M:%S") for t in time_pts],
-        "Risk Score": risks_over_time
-    })
-
-    fig_trend = px.area(
-        df_trend,
-        x="Timestamp",
-        y="Risk Score",
-        template="plotly_dark",
-        labels={"Risk Score": "Continuous Risk Score (0-100)", "Timestamp": "Timeline"}
-    )
-    fig_trend.update_traces(
-        line_color=risk_result["status_color"],
-        fillcolor=f"rgba({16 if action=='ALLOW' else (245 if action=='CHALLENGE' else 239)}, {185 if action=='ALLOW' else (158 if action=='CHALLENGE' else 68)}, {129 if action=='ALLOW' else (11 if action=='CHALLENGE' else 68)}, 0.25)"
-    )
-    # Add horizontal threshold lines
-    fig_trend.add_hline(y=RISK_THRESHOLD_CHALLENGE, line_dash="dash", line_color="#ef4444", annotation_text="Revoke Threshold (65)", annotation_position="top right")
-    fig_trend.add_hline(y=RISK_THRESHOLD_ALLOW, line_dash="dash", line_color="#f59e0b", annotation_text="Challenge Threshold (35)", annotation_position="top right")
-    fig_trend.update_layout(
-        height=260,
-        margin=dict(l=20, r=20, t=20, b=20),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)"
-    )
-    st.plotly_chart(fig_trend, use_container_width=True)
-
-# ==============================================================================
-# TAB 2: BEHAVIORAL RADAR PROFILER (SPIDER CHART)
-# ==============================================================================
-with tab_radar:
-    st.subheader("🕸️ Multi-Dimensional Behavioral Radar Profiler")
-    st.markdown("""
-    This radar chart compares the **Normal Administrative Operating Baseline** against the **Current Live Session** across 6 key telemetry dimensions.
-    Anomalous spikes expand the polygon dramatically outside the safe envelope.
-    """)
-
-    # Compute normalized indices for radar chart (0.0 to 1.0)
-    radar_categories = [
-        "Temporal Deviation",
-        "API Request Velocity",
-        "Data Egress Volume",
-        "IP Hop Speed (Geo)",
-        "Resource Sensitivity",
-        "Request Entropy / 403s"
-    ]
-
-    # Baseline envelope (typical normal values normalized)
-    baseline_radar = [0.15, 0.25, 0.12, 0.05, 0.10, 0.20]
-
-    # Evaluated session normalized values
-    norm_hour_dev = min(abs(eval_telemetry["hour_of_day"] - 13.5) / 10.0, 1.0)
-    norm_api_vel = min(eval_telemetry["api_calls_per_min"] / 200.0, 1.0)
-    norm_egress = min(eval_telemetry["data_download_mb"] / 3000.0, 1.0)
-    norm_geo_speed = min(eval_telemetry["geo_velocity_kmh"] / 10000.0, 1.0)
-    norm_sensitivity = float(eval_telemetry["sensitive_endpoint_ratio"])
-    norm_entropy = min((eval_telemetry["request_entropy"] + (eval_telemetry["failed_auth_attempts"] * 0.15)), 1.0)
-
-    current_radar = [
-        round(norm_hour_dev, 2),
-        round(norm_api_vel, 2),
-        round(norm_egress, 2),
-        round(norm_geo_speed, 2),
-        round(norm_sensitivity, 2),
-        round(norm_entropy, 2)
-    ]
-
-    col_radar_plot, col_radar_xai = st.columns([1.2, 1])
-
-    with col_radar_plot:
-        fig_radar = go.Figure()
-
-        # Baseline Safe Boundary Trace
-        fig_radar.add_trace(go.Scatterpolar(
-            r=baseline_radar + [baseline_radar[0]],
-            theta=radar_categories + [radar_categories[0]],
-            fill="toself",
-            name="Baseline Admin Norm",
-            line=dict(color="#00f2fe", width=2),
-            fillcolor="rgba(0, 242, 254, 0.15)"
-        ))
-
-        # Active Session Trace
-        fig_radar.add_trace(go.Scatterpolar(
-            r=current_radar + [current_radar[0]],
-            theta=radar_categories + [radar_categories[0]],
-            fill="toself",
-            name="Active Session Profile",
-            line=dict(color=risk_result["status_color"], width=3),
-            fillcolor=f"rgba({239 if action=='REVOKE' else (245 if action=='CHALLENGE' else 16)}, {68 if action=='REVOKE' else (158 if action=='CHALLENGE' else 185)}, {68 if action=='REVOKE' else (11 if action=='CHALLENGE' else 129)}, 0.35)"
-        ))
-
-        fig_radar.update_layout(
-            polar=dict(
-                radialaxis=dict(visible=True, range=[0, 1.0], tickfont=dict(size=10, color="#64748b"), gridcolor="rgba(51, 65, 85, 0.4)"),
-                angularaxis=dict(tickfont=dict(size=12, color="#cbd5e1", family="Space Grotesk"), gridcolor="rgba(51, 65, 85, 0.4)")
-            ),
-            showlegend=True,
-            legend=dict(font=dict(color="#f8fafc"), orientation="h", yanchor="bottom", y=1.05, xanchor="center", x=0.5),
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            height=400,
-            margin=dict(l=40, r=40, t=50, b=30)
+    col_xai_plot, col_xai_table = st.columns([1.2, 1])
+    with col_xai_plot:
+        # Bar chart of z-scores
+        fig_xai = px.bar(
+            df_exp,
+            x="z_deviation",
+            y="feature",
+            orientation="h",
+            color="severity",
+            color_discrete_map={"NORMAL": "#10B981", "ELEVATED": "#F59E0B", "HIGH": "#F97316", "CRITICAL": "#EF4444"},
+            labels={"z_deviation": "Standard Deviations from Normal (Z-Score)", "feature": "Behavioral Metric"},
+            title="Telemetric Anomaly Breakdown (Why the AI Decided This)",
+            template="plotly_dark"
         )
-        st.plotly_chart(fig_radar, use_container_width=True)
+        fig_xai.update_layout(height=350, yaxis={'categoryorder': 'total ascending'}, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+        st.plotly_chart(fig_xai, use_container_width=True)
 
-    with col_radar_xai:
-        st.markdown("#### 🔍 Explainable AI (XAI) Attribution")
-        st.caption("Standard deviations ($\sigma$) from benign DBA baseline:")
-
-        explanations = pipeline.explain_deviations(eval_telemetry)
-        for exp in explanations[:4]:
-            sev = exp["severity"]
-            badge_class = "glow-badge-crimson" if sev == "CRITICAL" else ("glow-badge-amber" if sev in ["HIGH", "ELEVATED"] else "glow-badge-emerald")
-            st.markdown(f"""
-            <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(51, 65, 85, 0.4);">
-                <div>
-                    <code style="color: #38bdf8;">{exp['feature']}</code><br>
-                    <small style="color: #94a3b8;">Observed: <strong>{exp['value']}</strong> | Norm: {exp['baseline_mean']}</small>
-                </div>
-                <div style="text-align: right;">
-                    <span class="{badge_class}">{exp['z_deviation']:>+5.1f}σ</span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+    with col_xai_table:
+        st.dataframe(
+            df_exp[["feature", "value", "baseline_mean", "z_deviation", "severity"]],
+            column_config={
+                "feature": "Feature",
+                "value": "Observed",
+                "baseline_mean": "Baseline Mean",
+                "z_deviation": "Z-Score",
+                "severity": "Risk Severity"
+            },
+            hide_index=True,
+            use_container_width=True
+        )
 
 # ==============================================================================
-# TAB 3: ACTIVE THREAT GEO-MAP WITH TRAJECTORIES
+# TAB 2: ACTIVE SESSIONS MONITOR & INCIDENT MAP
 # ==============================================================================
 with tab_sessions:
-    st.subheader("🛰️ Active Ingress Geolocation & Impossible Travel Trajectory")
-    st.caption("Monitors active administrative ingress points. When an impossible travel anomaly occurs, flight arcs demonstrate velocity violations.")
+    st.subheader("Administrative Session Monitor & Threat Map")
 
-    col_btn1, col_btn2 = st.columns([3, 1])
-    with col_btn2:
-        if st.button("🔄 Clear All Quarantines", use_container_width=True):
+    # Interactive session reset button
+    col_hdr1, col_hdr2 = st.columns([3, 1])
+    with col_hdr2:
+        if st.button("🔄 Reset Quarantine / Clear Locks"):
             enforcer.reset_quarantine()
-            st.success("All locks cleared!")
+            st.success("All locks and session quarantines cleared!")
             st.rerun()
 
+    # Convert active sessions to DataFrame
     session_rows = []
     for s_id, s_data in enforcer.active_sessions.items():
         session_rows.append({
@@ -704,8 +438,10 @@ with tab_sessions:
             "lat": s_data["telemetry_snapshot"].get("lat", 38.8951),
             "lon": s_data["telemetry_snapshot"].get("lon", -77.0364)
         })
+
     df_sessions = pd.DataFrame(session_rows)
 
+    # Plotly Geographic Map
     fig_map = px.scatter_geo(
         df_sessions,
         lat="lat",
@@ -715,40 +451,29 @@ with tab_sessions:
         color="State",
         color_discrete_map={"ACTIVE": "#10B981", "CHALLENGED": "#F59E0B", "REVOKED": "#EF4444"},
         size="Risk Score",
-        size_max=24,
+        size_max=22,
+        title="Live Geographical Ingress of Admin Sessions",
         template="plotly_dark",
         projection="natural earth"
     )
-
-    # Draw Impossible Travel Arc between D.C. HQ and active session if distant
-    curr_lat = float(eval_telemetry.get("lat", 38.8951))
-    curr_lon = float(eval_telemetry.get("lon", -77.0364))
-    if curr_lat != BASE_OFFICE_COORDS["lat"]:
-        fig_map.add_trace(go.Scattergeo(
-            lat=[BASE_OFFICE_COORDS["lat"], curr_lat],
-            lon=[BASE_OFFICE_COORDS["lon"], curr_lon],
-            mode="lines+markers",
-            line=dict(width=2, color="#ef4444", dash="dash"),
-            marker=dict(size=[8, 12], color=["#00f2fe", "#ef4444"]),
-            name=f"Impossible Flight ({eval_telemetry['geo_velocity_kmh']:,.0f} km/h)"
-        ))
-
     fig_map.update_geos(
         showcountries=True,
         countrycolor="#334155",
         showland=True,
-        landcolor="#0f172a",
+        landcolor="#1e293b",
         showocean=True,
-        oceancolor="#020617"
+        oceancolor="#0f172a"
     )
-    fig_map.update_layout(height=420, margin=dict(l=0, r=0, t=30, b=0), paper_bgcolor="rgba(0,0,0,0)")
+    fig_map.update_layout(height=420, margin=dict(l=0, r=0, t=40, b=0), paper_bgcolor="rgba(0,0,0,0)")
     st.plotly_chart(fig_map, use_container_width=True)
 
+    # Sessions Table
     st.dataframe(
         df_sessions.drop(columns=["lat", "lon"]),
         column_config={
             "Risk Score": st.column_config.ProgressColumn(
                 "Risk Score",
+                help="Continuous Risk Score (0-100)",
                 format="%d",
                 min_value=0,
                 max_value=100
@@ -759,111 +484,130 @@ with tab_sessions:
     )
 
 # ==============================================================================
-# TAB 4: BASELINE DIAGNOSTICS & ANOMALY BOUNDARIES
+# TAB 3: BASELINE TELEMETRY & ML DIAGNOSTICS
 # ==============================================================================
 with tab_model:
-    st.subheader("📊 Empirical Baseline Diagnostics & Decision Boundaries")
+    st.subheader("Machine Learning Baseline & Anomaly Boundary Diagnostics")
+    st.markdown("""
+    The model was trained on **3,500 baseline administrative sessions** across routine public healthcare/welfare databases.
+    Below is the empirical distribution of normal activity versus detected attack vectors.
+    """)
+
     baseline_csv = DATA_DIR / "baseline_admin_logs.csv"
     if baseline_csv.exists():
         df_base = pd.read_csv(baseline_csv)
-        col_m1, col_m2 = st.columns(2)
 
+        col_m1, col_m2 = st.columns(2)
         with col_m1:
-            fig_diag1 = px.scatter(
+            # Hour of Day vs API Calls
+            fig_scatter1 = px.scatter(
                 df_base.sample(n=min(len(df_base), 800), random_state=42),
                 x="hour_of_day",
                 y="data_download_mb",
                 color_discrete_sequence=["#38bdf8"],
-                opacity=0.45,
-                title="Data Egress (MB) vs Access Hour (Baseline Cloud Workday)",
+                opacity=0.5,
+                title="Data Egress (MB) vs Hour of Day (Baseline Workday)",
+                labels={"hour_of_day": "Hour of Day (24h)", "data_download_mb": "Download Egress (MB)"},
                 template="plotly_dark"
             )
-            fig_diag1.add_trace(go.Scatter(
+            # Overlay current test point
+            fig_scatter1.add_trace(go.Scatter(
                 x=[eval_telemetry["hour_of_day"]],
                 y=[eval_telemetry["data_download_mb"]],
                 mode="markers",
-                marker=dict(size=18, color=risk_result["status_color"], symbol="star", line=dict(width=2, color="#ffffff")),
-                name="Evaluated Session"
+                marker=dict(size=16, color=risk_result["status_color"], symbol="star"),
+                name="Current Evaluated Session"
             ))
-            fig_diag1.update_layout(height=340, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-            st.plotly_chart(fig_diag1, use_container_width=True)
+            fig_scatter1.update_layout(height=350, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+            st.plotly_chart(fig_scatter1, use_container_width=True)
 
         with col_m2:
-            fig_diag2 = px.scatter(
+            # API Calls vs Sensitive Ratio
+            fig_scatter2 = px.scatter(
                 df_base.sample(n=min(len(df_base), 800), random_state=42),
                 x="api_calls_per_min",
                 y="sensitive_endpoint_ratio",
                 color_discrete_sequence=["#a855f7"],
-                opacity=0.45,
-                title="Sensitive Route Ratio vs Query Velocity (API Calls/min)",
+                opacity=0.5,
+                title="Sensitive Endpoint Ratio vs API Call Velocity",
+                labels={"api_calls_per_min": "API Calls / Min", "sensitive_endpoint_ratio": "Sensitive Endpoint Ratio"},
                 template="plotly_dark"
             )
-            fig_diag2.add_trace(go.Scatter(
+            # Overlay current test point
+            fig_scatter2.add_trace(go.Scatter(
                 x=[eval_telemetry["api_calls_per_min"]],
                 y=[eval_telemetry["sensitive_endpoint_ratio"]],
                 mode="markers",
-                marker=dict(size=18, color=risk_result["status_color"], symbol="star", line=dict(width=2, color="#ffffff")),
-                name="Evaluated Session"
+                marker=dict(size=16, color=risk_result["status_color"], symbol="star"),
+                name="Current Evaluated Session"
             ))
-            fig_diag2.update_layout(height=340, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-            st.plotly_chart(fig_diag2, use_container_width=True)
+            fig_scatter2.update_layout(height=350, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+            st.plotly_chart(fig_scatter2, use_container_width=True)
+
+        # Baseline Statistics Table
+        st.subheader("Baseline Feature Distribution Statistics (Training Set)")
+        st.dataframe(df_base[pipeline.features].describe().T[["mean", "std", "min", "50%", "max"]], use_container_width=True)
 
 # ==============================================================================
-# TAB 5: SIEM AUDIT TRAIL & TERMINAL STREAM
+# TAB 4: SIEM AUDIT TRAIL & EVENT STREAM
 # ==============================================================================
 with tab_siem:
-    st.subheader("📜 SIEM Live Security Stream (CEF / Syslog JSON)")
-    st.caption("Structured security events emitted to SOC SIEM (Splunk, Elastic, Microsoft Sentinel).")
+    st.subheader("Security Information and Event Management (SIEM) Stream")
+    st.caption("Common Event Format (CEF) / JSON security audit log stream ready for ingestion into Splunk, Microsoft Sentinel, or Elastic SIEM.")
 
     if enforcer.audit_log:
-        latest = enforcer.audit_log[0]
-        st.markdown(f"""
-        <div class="cyber-terminal">
-            <div><span style="color: #38bdf8;">[{latest['timestamp']}]</span> <span style="color: {('#34d399' if latest['action']=='ALLOW' else ('#fbbf24' if latest['action']=='CHALLENGE' else '#f87171'))}; font-weight: 700;">[{latest['action']}]</span> EVENT_ID: {latest['event_id']}</div>
-            <div>&gt; SESSION_REF  : {latest['session_id']} (User: {latest['user_id']})</div>
-            <div>&gt; INGRESS_SRC  : {latest['location']} // {latest['source_ip_asn']}</div>
-            <div>&gt; RISK_SCORE   : {latest['risk_score']}/100 [DECISION: {latest['state']}]</div>
-            <div>&gt; AUDIT_MSG    : {latest['details']}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
         df_audit = pd.DataFrame(enforcer.audit_log)
         st.dataframe(
             df_audit[["timestamp", "event_id", "session_id", "user_id", "risk_score", "action", "state", "details"]],
             use_container_width=True,
             hide_index=True
         )
+
+        st.subheader("Latest Raw JSON Security Event")
+        st.json(enforcer.audit_log[0])
     else:
-        st.info("No audit events recorded.")
+        st.info("No audit events recorded yet.")
 
 # ==============================================================================
-# TAB 6: PANEL PRESENTATION & DEFENSE GUIDE
+# TAB 5: PANEL PRESENTATION & DEFENSE PITCH
 # ==============================================================================
 with tab_pitch:
-    st.subheader("🎓 Panel Presentation & Defense Pitch")
-
+    st.subheader("🎓 Development Pitch & Evaluation Defense Guide")
     st.markdown("""
-    <div class="cyber-card">
-        <h4 style="color: #00f2fe; margin-top: 0;">📢 The 60-Second Elevator Pitch</h4>
-        <blockquote style="border-left: 3px solid #00f2fe; padding-left: 14px; color: #e2e8f0; font-size: 1.05rem; font-style: italic;">
-            "Securing public sector cloud registries—like national healthcare registries and social welfare databases—requires moving away from static perimeter firewalls. Traditional authentication verifies credentials once at login (t=0). If those credentials are phished, leaked, or stolen, an adversary has unchecked administrative access.<br><br>
-            I built <strong>AegisTrust</strong>: an automated, zero-trust behavioral analysis pipeline that monitors administrative behavior continuously after login. Using an unsupervised <strong>Isolation Forest</strong> model combined with dynamic contextual risk scoring, the system detects anomalous data exfiltration, impossible travel, and privilege probing in real time. When an authenticated session turns malicious, the engine autonomously enforces step-up MFA challenges or immediate session termination and IP quarantining before data can be stolen."
-        </blockquote>
-    </div>
-    """, unsafe_allow_html=True)
+    Use the structured talking points below when pitching and defending this project before an academic or industry evaluation panel.
+    """)
 
-    with st.expander("🛡️ 1. Threat Matrix & Detection Mechanics", expanded=True):
+    with st.expander("📢 1. The 60-Second Elevator Pitch", expanded=True):
         st.markdown("""
-        | Threat Vector | Real-World Attack Scenario | Telemetry Flags | Policy Response |
-        | :--- | :--- | :--- | :--- |
-        | **Stolen DBA Credentials** | Adversary logs in at 3:15 AM to dump 4.8 GB of patient health records. | Extreme Egress Spike + Off-Hours + High Sensitive Ratio. | **REVOKE**: Session destroyed, IP quarantined. |
-        | **Session Cookie Theft** | Infostealer malware steals session token; foreign IP issues queries 5 min later. | Impossible Travel (>40,000 km/h Haversine hop). | **REVOKE**: Session killed, token revoked. |
-        | **Low & Slow Harvester** | Adversary throttles queries to 18 req/min via TOR at night to evade rate limiters. | Off-hours timing + 88% focus on citizen PII endpoints. | **CHALLENGE / REVOKE**: Step-up MFA blocks bot. |
-        | **Privilege Reconnaissance** | Compromised account tests unauthorized endpoints, triggering 403 Forbidden spikes. | Error Burst (6 failures) + High URI entropy. | **CHALLENGE**: Throttled, MFA re-auth required. |
+        > *"Securing public sector cloud registries—like national healthcare registries and social welfare databases—requires moving away from static perimeter firewalls. Traditional authentication verifies credentials once at login ($t=0$). If those credentials are phished, leaked, or stolen, an adversary has unchecked administrative access.*  
+        >  
+        > *I built **AegisTrust**: an intelligent, zero-trust behavioral analysis pipeline that monitors administrative behavior continuously after login. Using an unsupervised **Isolation Forest** model combined with dynamic contextual risk scoring, the system detects anomalous data exfiltration, impossible travel, and privilege probing in real time. When an authenticated session turns malicious, the engine autonomously enforces step-up MFA challenges or immediate session termination and IP quarantining before data can be stolen."*
         """)
 
-    with st.expander("🎯 2. High-Impact Panel Q&A Preparation", expanded=False):
+    with st.expander("🏛️ 2. Architectural Blueprint & Technical Stack", expanded=False):
+        st.markdown("""
+        - **Data Ingestion Tier**: Captures streaming post-auth telemetry: login hour, API call frequency, egress bytes, IP hop speed (Haversine geodistance), sensitive endpoint access ratios, error entropy.
+        - **Preprocessing & Normalization**: `RobustScaler` handling non-normal distributions and extreme outliers without biasing the baseline.
+        - **Machine Learning Core**: Unsupervised `IsolationForest` (150 decision trees, contamination=0.04) trained on benign administrative workflows without requiring labeled attack samples.
+        - **Risk Engine & Policy Decision Point (PDP)**: Synthesizes ML anomaly intensity with domain-specific physics violations (impossible travel > 850 km/h, bulk download > 1 GB) into a normalized Continuous Risk Score (0-100).
+        - **Policy Enforcement Point (PEP)**: Enforces dynamic tiered actions:
+          - **0-34 (ALLOW)**: Continuous passive monitoring.
+          - **35-64 (CHALLENGE)**: Step-up MFA challenge (TOTP/Biometric) + API rate limiting.
+          - **65-100 (REVOKE)**: Immediate session invalidation, IP quarantine, SIEM alert.
+        - **Explainability (XAI)**: Z-score deviation breakdown attributing risk to individual behavioral signals for audit compliance.
+        """)
+
+    with st.expander("🛡️ 3. Threat Model & Handled Attack Vectors", expanded=False):
+        st.markdown("""
+        | Threat Vector | Real-World Scenario | Detection Mechanism | Enforcement Action |
+        | :--- | :--- | :--- | :--- |
+        | **Stolen Admin Credentials** | Adversary logs in with valid DBA password at 3:15 AM to dump patient records. | Anomaly in access hour + massive data egress spike + high sensitive endpoint ratio. | **REVOKE**: Session destroyed, credentials locked. |
+        | **Session Cookie Hijack (AiTM)** | Session token stolen via Evilginx; adversary makes requests from Bucharest while admin is in D.C. | Haversine velocity > 40,000 km/h (Impossible Travel physics violation). | **REVOKE**: Session revoked, offshore IP quarantined. |
+        | **Low & Slow Harvester (APT)** | Adversary throttles queries to 18 req/min via TOR at night to evade rate limiters. | Off-hours pattern + uncharacteristically high focus on sensitive citizen PII routes. | **CHALLENGE / REVOKE**: Step-up MFA blocks automation. |
+        | **Privilege Escalation Recon** | Compromised dev account attempts horizontal scanning across forbidden endpoints. | High request entropy + burst of 403 Forbidden error responses. | **CHALLENGE**: Throttles calls, demands MFA re-auth. |
+        """)
+
+    with st.expander("🎯 4. Anticipated Panel Questions & Bulletproof Answers", expanded=False):
         st.markdown("""
         **Q1: Why use Unsupervised Learning (Isolation Forest) instead of Supervised Classification (e.g. XGBoost)?**  
         *Answer:* "In real-world cybersecurity, attack patterns constantly mutate (Zero-Day threats, novel APT exfiltration techniques). Supervised models overfit to known attack signatures. Unsupervised Isolation Forest isolates anomalies simply based on how few tree splits are needed to separate an observation from normal administrative routines. It requires zero labeled attack data, making it naturally resilient to previously unseen threat vectors."
@@ -871,6 +615,6 @@ with tab_pitch:
         **Q2: How do you handle False Positives without locking out legitimate admins who have an emergency off-hours shift?**  
         *Answer:* "That is the core strength of our tiered Zero-Trust architecture. An elevated risk score (35-64) does not abruptly lock out the admin. Instead, it issues a **Step-Up Authentication Challenge** (MFA / TOTP prompt) and throttles throughput. If it is a legitimate admin on-call, they simply confirm their identity in 3 seconds and proceed. Full revocation is reserved strictly for high-confidence breaches (Risk > 65), such as impossible travel or gigabyte-scale exfiltration."
 
-        **Q3: How does this scale to production cloud architectures (AWS / Azure / GCP)?**  
-        *Answer:* "AegisTrust functions as an asynchronous Policy Decision Point (PDP) under NIST SP 800-207. Telemetry can be streamed from AWS CloudTrail, CloudFront, Azure Sentinel, or an Envoy API gateway via Kafka or Kinesis. The model evaluates sessions sub-second and can push instant revocation commands via Open Policy Agent (OPA), AWS IAM session revocation APIs, or Cloudflare Zero Trust session termination endpoints."
+        **Q3: How does this integrate with modern cloud infrastructure like AWS or Azure?**  
+        *Answer:* "AegisTrust is designed to act as an asynchronous Policy Decision Point (PDP). Telemetry can be streamed from AWS CloudTrail, CloudFront, Azure Sentinel, or an Envoy API gateway via Kafka or Kinesis. The model evaluates sessions sub-second and can push instant revocation commands via Open Policy Agent (OPA), AWS IAM session revocation APIs, or Cloudflare Zero Trust session termination endpoints."
         """)
