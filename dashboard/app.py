@@ -8,6 +8,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 import streamlit as st
+import streamlit.components.v1 as components
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -80,6 +81,24 @@ st.markdown("""
         color: #F6DBC0 !important;
     }
 
+    /* Top Scroll Progress Indicator */
+    .top-scroll-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 4px;
+        background: rgba(12, 5, 14, 0.85);
+        z-index: 999999;
+    }
+    .top-scroll-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #502D55 0%, #935073 50%, #F6DBC0 100%);
+        box-shadow: 0 0 14px rgba(246, 219, 192, 0.9), 0 0 24px rgba(147, 80, 115, 0.7);
+        transition: width 0.08s ease-out;
+    }
+
     /* Keyframe Animations */
     @keyframes cardFadeIn {
         from {
@@ -102,6 +121,37 @@ st.markdown("""
         0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(246, 219, 192, 0.7); }
         70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(246, 219, 192, 0); }
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(246, 219, 192, 0); }
+    }
+
+    @keyframes radarSweep {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    /* Scroll-Driven Entry Effects: Modern Web Guidance Standard */
+    @media (prefers-reduced-motion: no-preference) {
+        @supports ((animation-timeline: view()) and (animation-range: entry)) {
+            @keyframes scrollEntryReveal {
+                0% {
+                    opacity: 0.25;
+                    transform: translateY(28px) scale(0.98);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            .section-card {
+                animation: scrollEntryReveal linear both;
+                animation-timeline: view();
+                animation-range: entry 5% cover 30%;
+            }
+            div[data-testid="stMetric"] {
+                animation: scrollEntryReveal linear both;
+                animation-timeline: view();
+                animation-range: entry 5% cover 25%;
+            }
+        }
     }
 
     /* KPI Metric Cards in Violet Dusk */
@@ -166,16 +216,17 @@ st.markdown("""
         gap: 6px;
         transition: all 0.25s ease;
     }
-    .nav-chip:hover {
+    .nav-chip:hover, .nav-chip-active {
         color: #F8F4E9 !important;
-        background: linear-gradient(135deg, #935073 0%, #502D55 100%);
-        border-color: #F6DBC0;
-        box-shadow: 0 0 18px rgba(246, 219, 192, 0.35);
+        background: linear-gradient(135deg, #935073 0%, #502D55 100%) !important;
+        border-color: #F6DBC0 !important;
+        box-shadow: 0 0 18px rgba(246, 219, 192, 0.4) !important;
         transform: translateY(-2px);
     }
 
     /* Section Banner Headers */
     .section-card {
+        position: relative;
         background: rgba(40, 19, 45, 0.65);
         backdrop-filter: blur(14px);
         border: 1px solid rgba(147, 80, 115, 0.35);
@@ -184,6 +235,20 @@ st.markdown("""
         margin: 28px 0 16px 0;
         box-shadow: 0 8px 30px rgba(10, 4, 12, 0.45);
         animation: cardFadeIn 0.5s ease-out;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .section-card:hover {
+        border-color: rgba(246, 219, 192, 0.55);
+        box-shadow: 0 12px 36px rgba(147, 80, 115, 0.35);
+    }
+    .section-card::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 20px;
+        width: 36px;
+        height: 2px;
+        background: linear-gradient(90deg, #F6DBC0 0%, transparent 100%);
     }
 
     .section-title {
@@ -425,21 +490,199 @@ with st.sidebar:
         "attack_type": active_preset["title"]
     }
 
+# Top Scroll Progress Container
+st.markdown("""
+<div class="top-scroll-container">
+    <div id="top-scroll-fill" class="top-scroll-fill"></div>
+</div>
+""", unsafe_allow_html=True)
+
+# Zero-Trust Telemetry Mesh & Scroll Physics Controller
+components.html("""
+<script>
+(function() {
+    function initAegisMesh() {
+        try {
+            const parentDoc = window.parent.document;
+            if (!parentDoc) return;
+            
+            // 1. Setup Telemetry Canvas
+            let canvas = parentDoc.getElementById('aegis-telemetry-canvas');
+            if (!canvas) {
+                canvas = parentDoc.createElement('canvas');
+                canvas.id = 'aegis-telemetry-canvas';
+                canvas.style.position = 'fixed';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.width = '100vw';
+                canvas.style.height = '100vh';
+                canvas.style.pointerEvents = 'none';
+                canvas.style.zIndex = '0';
+                canvas.style.opacity = '0.4';
+                
+                const rootApp = parentDoc.querySelector('.stApp') || parentDoc.body;
+                rootApp.insertBefore(canvas, rootApp.firstChild);
+            }
+
+            const ctx = canvas.getContext('2d');
+            let w = canvas.width = window.parent.innerWidth;
+            let h = canvas.height = window.parent.innerHeight;
+
+            window.parent.addEventListener('resize', () => {
+                w = canvas.width = window.parent.innerWidth;
+                h = canvas.height = window.parent.innerHeight;
+            });
+
+            // Zero-Trust Personalized Telemetry Signals
+            const telemetryLabels = [
+                'API_RATE', 'EGRESS_MB', 'GEO_HOP', 'ENTROPY', 'ISO_FOREST', 
+                'Z_SCORE', 'TOTP_MFA', 'PDP_RULE', '403_LOG', 'PII_REGISTRY',
+                'NIST_800_207', 'RISK_SCORE', 'LATENCY', 'ANOMALY_TREE',
+                'TELEMETRY', 'POLICY_DECISION', 'QUARANTINE', 'STEP_UP'
+            ];
+
+            const nodes = [];
+            for (let i = 0; i < 24; i++) {
+                nodes.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: (Math.random() - 0.5) * 0.35,
+                    radius: 2.2 + Math.random() * 2,
+                    label: telemetryLabels[i % telemetryLabels.length],
+                    color: i % 3 === 0 ? '#F6DBC0' : (i % 3 === 1 ? '#935073' : '#c084fc')
+                });
+            }
+
+            let lastScrollY = window.parent.scrollY || 0;
+            let scrollVel = 0;
+
+            window.parent.addEventListener('scroll', () => {
+                const currentY = window.parent.scrollY || 0;
+                scrollVel = (currentY - lastScrollY) * 0.16;
+                lastScrollY = currentY;
+
+                // Update scroll progress bar
+                const maxScroll = parentDoc.documentElement.scrollHeight - window.parent.innerHeight;
+                const pct = maxScroll > 0 ? (currentY / maxScroll) * 100 : 0;
+                const fill = parentDoc.getElementById('top-scroll-fill');
+                if (fill) fill.style.width = pct + '%';
+
+                // Update active section in sticky nav
+                const sections = ['section-live', 'section-map', 'section-diagnostics', 'section-siem', 'section-pitch'];
+                let activeId = sections[0];
+                for (let sid of sections) {
+                    const el = parentDoc.getElementById(sid);
+                    if (el) {
+                        const top = el.getBoundingClientRect().top;
+                        if (top <= 250) activeId = sid;
+                    }
+                }
+                const chips = parentDoc.querySelectorAll('.nav-chip');
+                chips.forEach(chip => {
+                    const href = chip.getAttribute('href') || '';
+                    if (href.includes(activeId)) {
+                        chip.classList.add('nav-chip-active');
+                    } else {
+                        chip.classList.remove('nav-chip-active');
+                    }
+                });
+            }, { passive: true });
+
+            // 60FPS Render Loop
+            function render() {
+                ctx.clearRect(0, 0, w, h);
+                scrollVel *= 0.93; // Smooth scroll deceleration
+
+                // Draw connecting telemetry edges
+                ctx.lineWidth = 0.8;
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dx = nodes[i].x - nodes[j].x;
+                        const dy = nodes[i].y - nodes[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 190) {
+                            const alpha = (1 - dist / 190) * 0.32;
+                            ctx.strokeStyle = `rgba(147, 80, 115, ${alpha})`;
+                            ctx.beginPath();
+                            ctx.moveTo(nodes[i].x, nodes[i].y);
+                            ctx.lineTo(nodes[j].x, nodes[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Render nodes with scroll-reactive motion
+                for (let i = 0; i < nodes.length; i++) {
+                    const n = nodes[i];
+                    n.x += n.vx;
+                    n.y += n.vy + scrollVel * 0.65; // React to scroll velocity!
+
+                    if (n.x < 0) n.x = w;
+                    if (n.x > w) n.x = 0;
+                    if (n.y < 0) n.y = h;
+                    if (n.y > h) n.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = n.color;
+                    ctx.shadowColor = n.color;
+                    ctx.shadowBlur = 6;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    ctx.font = '9px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(246, 219, 192, 0.45)';
+                    ctx.fillText(n.label, n.x + 8, n.y + 3);
+                }
+
+                requestAnimationFrame(render);
+            }
+            render();
+        } catch(e) {
+            console.warn('Aegis scroll telemetry:', e);
+        }
+    }
+    if (document.readyState === 'complete') {
+        initAegisMesh();
+    } else {
+        window.addEventListener('load', initAegisMesh);
+    }
+})();
+</script>
+""", height=0, width=0)
+
 # ==============================================================================
 # HEADER HERO: VIOLET DUSK OPERATIONS BANNER
 # ==============================================================================
 st.markdown("""
-<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid rgba(147, 80, 115, 0.35); padding-bottom: 16px;">
-    <div>
-        <div style="display: flex; align-items: center; margin-bottom: 6px;">
-            <span class="pulse-dot-champagne"></span>
-            <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #F6DBC0; letter-spacing: 0.1em; text-transform: uppercase;">Zero-Trust Telemetry Shield // Public Welfare Registries</span>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(147, 80, 115, 0.35); padding-bottom: 18px;">
+    <div style="display: flex; align-items: center; gap: 18px;">
+        <!-- Animated Zero-Trust Biometric Security Shield HUD -->
+        <div style="position: relative; width: 62px; height: 62px; flex-shrink: 0;">
+            <svg width="62" height="62" viewBox="0 0 62 62" style="position: absolute; top: 0; left: 0;">
+                <circle cx="31" cy="31" r="28" stroke="rgba(147, 80, 115, 0.45)" stroke-width="1.5" fill="none" stroke-dasharray="4,4" />
+                <circle cx="31" cy="31" r="20" stroke="rgba(246, 219, 192, 0.35)" stroke-width="1" fill="none" />
+                <circle cx="31" cy="31" r="9" stroke="#F6DBC0" stroke-width="2" fill="rgba(80, 45, 85, 0.7)" />
+                <line x1="31" y1="2" x2="31" y2="60" stroke="rgba(147, 80, 115, 0.25)" stroke-width="1" />
+                <line x1="2" y1="31" x2="60" y2="31" stroke="rgba(147, 80, 115, 0.25)" stroke-width="1" />
+                <g style="transform-origin: 31px 31px; animation: radarSweep 3.4s linear infinite;">
+                    <line x1="31" y1="31" x2="52" y2="15" stroke="#F6DBC0" stroke-width="2" stroke-linecap="round" />
+                    <polygon points="31,31 52,15 44,10" fill="rgba(246, 219, 192, 0.22)" />
+                </g>
+            </svg>
         </div>
-        <h1 style="margin: 0; font-size: 2.2rem; font-weight: 700; background: linear-gradient(90deg, #F8F4E9 0%, #F6DBC0 50%, #935073 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            🛡️ Intelligent Zero-Trust Behavioral Authentication
-        </h1>
-        <div style="color: #F6DBC0; opacity: 0.85; font-size: 0.95rem; margin-top: 4px;">
-            Continuous, AI-driven post-authentication behavioral profiling & automated step-up enforcement.
+        <div>
+            <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                <span class="pulse-dot-champagne"></span>
+                <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #F6DBC0; letter-spacing: 0.1em; text-transform: uppercase;">Zero-Trust Telemetry Sentinel // Public Welfare Clouds</span>
+            </div>
+            <h1 style="margin: 0; font-size: 2.1rem; font-weight: 700; background: linear-gradient(90deg, #F8F4E9 0%, #F6DBC0 50%, #935073 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Intelligent Zero-Trust Behavioral Authentication
+            </h1>
+            <div style="color: #F6DBC0; opacity: 0.85; font-size: 0.92rem; margin-top: 4px;">
+                Continuous post-authentication behavioral profiling & automated step-up enforcement.
+            </div>
         </div>
     </div>
     <div style="text-align: right;">
