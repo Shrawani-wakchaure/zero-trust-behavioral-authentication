@@ -40,58 +40,58 @@ st.markdown("""
         font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    code, pre {
+    code, pre, .mono-font {
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Subtle Dark Theme Background */
+    /* Cosmic Dark Background */
     .stApp {
-        background: radial-gradient(circle at 10% 10%, #0d172e 0%, #070b16 55%, #03050a 100%);
+        background: radial-gradient(circle at 12% 12%, #0d1830 0%, #070b16 55%, #03050a 100%);
         color: #e2e8f0;
     }
 
     /* Polished Metric & KPI Card */
     div[data-testid="stMetric"] {
-        background: rgba(15, 23, 42, 0.65);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(56, 189, 248, 0.16);
-        border-radius: 12px;
-        padding: 16px 20px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        background: rgba(15, 23, 42, 0.72) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        border: 1px solid rgba(56, 189, 248, 0.2) !important;
+        border-radius: 12px !important;
+        padding: 16px 20px !important;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), inset 0 0 10px rgba(56, 189, 248, 0.04) !important;
+        transition: transform 0.2s ease, border-color 0.2s ease !important;
     }
     div[data-testid="stMetric"]:hover {
-        border-color: rgba(56, 189, 248, 0.4);
-        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.5) !important;
+        transform: translateY(-2px) !important;
     }
     div[data-testid="stMetric"] label {
         color: #94a3b8 !important;
-        font-weight: 500;
-        font-size: 0.85rem;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
+        font-weight: 500 !important;
+        font-size: 0.82rem !important;
+        letter-spacing: 0.06em !important;
+        text-transform: uppercase !important;
     }
     div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
-        font-weight: 700;
-        font-size: 2rem;
-        color: #f8fafc;
+        font-weight: 700 !important;
+        font-size: 2.1rem !important;
+        color: #f8fafc !important;
     }
 
     /* Modern Styled Tabs */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
-        background: rgba(15, 23, 42, 0.5);
-        padding: 8px 12px;
+        gap: 8px;
+        background: rgba(15, 23, 42, 0.55);
+        padding: 6px 10px;
         border-radius: 12px;
-        border: 1px solid rgba(51, 65, 85, 0.4);
+        border: 1px solid rgba(51, 65, 85, 0.45);
     }
     .stTabs [data-baseweb="tab"] {
-        padding: 10px 20px;
+        padding: 10px 18px;
         border-radius: 8px;
         color: #94a3b8;
         font-weight: 500;
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         transition: all 0.2s ease;
         border: none;
     }
@@ -102,8 +102,65 @@ st.markdown("""
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(99, 102, 241, 0.18) 100%) !important;
         color: #38bdf8 !important;
-        border: 1px solid rgba(56, 189, 248, 0.35) !important;
-        box-shadow: 0 4px 14px rgba(56, 189, 248, 0.12);
+        border: 1px solid rgba(56, 189, 248, 0.4) !important;
+        box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15);
+    }
+
+    /* Glowing Pulse Live Dot */
+    .pulse-dot {
+        height: 9px;
+        width: 9px;
+        background-color: #00f2fe;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 10px #00f2fe;
+        animation: pulse-glow 2s infinite;
+        margin-right: 6px;
+    }
+    @keyframes pulse-glow {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); }
+        70% { transform: scale(1.15); box-shadow: 0 0 0 7px rgba(0, 242, 254, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+    }
+
+    /* Monospace Tech Tag */
+    .tech-pill {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #38bdf8;
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        padding: 3px 8px;
+        border-radius: 4px;
+        margin-left: 6px;
+    }
+
+    /* Decision Box Styling */
+    .decision-container-allow {
+        background: rgba(11, 35, 27, 0.7);
+        border: 1px solid rgba(16, 185, 129, 0.45);
+        border-radius: 12px;
+        padding: 18px 22px;
+        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
+        margin-bottom: 14px;
+    }
+    .decision-container-challenge {
+        background: rgba(42, 28, 12, 0.7);
+        border: 1px solid rgba(245, 158, 11, 0.45);
+        border-radius: 12px;
+        padding: 18px 22px;
+        box-shadow: 0 8px 30px rgba(245, 158, 11, 0.15);
+        margin-bottom: 14px;
+    }
+    .decision-container-revoke {
+        background: rgba(42, 14, 22, 0.7);
+        border: 1px solid rgba(239, 68, 68, 0.45);
+        border-radius: 12px;
+        padding: 18px 22px;
+        box-shadow: 0 8px 30px rgba(239, 68, 68, 0.2);
+        margin-bottom: 14px;
     }
 
     /* Status Badges */
@@ -146,19 +203,6 @@ st.markdown("""
         box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
         border-color: #38bdf8;
     }
-
-    /* Header Accent */
-    .header-badge {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.78rem;
-        color: #38bdf8;
-        background: rgba(56, 189, 248, 0.1);
-        border: 1px solid rgba(56, 189, 248, 0.25);
-        padding: 3px 8px;
-        border-radius: 4px;
-        margin-right: 8px;
-        letter-spacing: 0.05em;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -192,9 +236,15 @@ enforcer = st.session_state["enforcer"]
 
 # Sidebar Configuration & Telemetry Inputs
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/shield.png", width=64)
-    st.title("AegisTrust Zero-Trust")
-    st.caption("Continuous Behavioral Post-Auth Defense for Public Cloud Registries")
+    st.markdown("""
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+        <span class="pulse-dot"></span>
+        <span style="font-weight: 700; letter-spacing: 0.08em; color: #00f2fe; font-size: 1.05rem;">AEGISTRUST SOC</span>
+    </div>
+    <div style="color: #64748b; font-size: 0.8rem; margin-bottom: 14px;">
+        Continuous Zero-Trust Post-Auth Defense
+    </div>
+    """, unsafe_allow_html=True)
     st.divider()
 
     st.subheader("🎯 Scenario Selector")
@@ -246,12 +296,28 @@ with st.sidebar:
         "attack_type": active_preset["title"]
     }
 
-# Main Application Layout
-st.title("🛡️ Intelligent Zero-Trust Behavioral Authentication")
+# Main Application Layout: Polished Hero Header
 st.markdown("""
-**Continuous Risk Assessment for Critical Public Infrastructure**  
-*Traditional perimeter security trusts any session that passes initial MFA. AegisTrust continuously scores post-authentication telemetry using unsupervised Isolation Forest ML and enforces instantaneous zero-trust lockouts or step-up challenges.*
-""")
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; border-bottom: 1px solid rgba(56, 189, 248, 0.18); padding-bottom: 16px;">
+    <div>
+        <div style="display: flex; align-items: center; margin-bottom: 6px;">
+            <span class="pulse-dot"></span>
+            <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #00f2fe; letter-spacing: 0.1em; text-transform: uppercase;">Zero-Trust Telemetry Engine // Public Cloud Infrastructures</span>
+        </div>
+        <h1 style="margin: 0; font-size: 2.1rem; font-weight: 700; color: #ffffff; letter-spacing: -0.01em;">
+            🛡️ Intelligent Zero-Trust Behavioral Authentication
+        </h1>
+        <div style="color: #94a3b8; font-size: 0.95rem; margin-top: 4px;">
+            Continuous, AI-powered post-authentication telemetry monitoring & automated risk containment.
+        </div>
+    </div>
+    <div style="text-align: right;">
+        <span class="tech-pill">ACTIVE PDP</span>
+        <span class="tech-pill">NIST SP 800-207</span>
+        <span class="tech-pill">ISOLATION FOREST</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # Top Level KPI Banner
 c1, c2, c3, c4 = st.columns(4)
@@ -332,23 +398,32 @@ with tab_live:
 
     with col_decision:
         action = risk_result["action"]
-        if action == "ALLOW":
-            st.success(f"### ✅ Policy Action: {action} (Low Risk)")
-        elif action == "CHALLENGE":
-            st.warning(f"### ⚠️ Policy Action: {action} (Step-Up MFA Required)")
-        else:
-            st.error(f"### 🚨 Policy Action: {action} (Session Quarantined)")
+        card_class = "decision-container-allow" if action == "ALLOW" else ("decision-container-challenge" if action == "CHALLENGE" else "decision-container-revoke")
+        badge_class = "badge-allow" if action == "ALLOW" else ("badge-challenge" if action == "CHALLENGE" else "badge-revoke")
+        tier_title = "LOW RISK" if action == "ALLOW" else ("STEP-UP REQUIRED" if action == "CHALLENGE" else "SESSION QUARANTINED")
 
-        st.markdown(f"**Zero-Trust Posture:** {risk_result['action_description']}")
-        st.markdown(f"**User:** `{eval_telemetry['user_id']}` ({eval_telemetry['role']})")
-        st.markdown(f"**Session ID:** `{eval_telemetry['session_id']}` | **Location:** `{eval_telemetry['city']}` ({eval_telemetry['asn']})")
+        st.markdown(f"""
+        <div class="{card_class}">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 0.08em; color: #94a3b8; text-transform: uppercase;">Zero-Trust Policy Verdict</span>
+                <span class="{badge_class}">{action} // {tier_title}</span>
+            </div>
+            <h3 style="margin: 0 0 10px 0; color: #f8fafc; font-size: 1.25rem;">{risk_result['action_description']}</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.88rem; color: #cbd5e1; margin-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 10px;">
+                <div><span style="color: #94a3b8;">User:</span> <code>{eval_telemetry['user_id']}</code></div>
+                <div><span style="color: #94a3b8;">Role:</span> {eval_telemetry['role']}</div>
+                <div><span style="color: #94a3b8;">Session:</span> <code>{eval_telemetry['session_id']}</code></div>
+                <div><span style="color: #94a3b8;">Location:</span> {eval_telemetry['city']} ({eval_telemetry['asn']})</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
         if risk_result["active_triggers"]:
             st.markdown("**Active Behavioral Policy Triggers:**")
             for trig in risk_result["active_triggers"]:
                 st.markdown(f"- 🔴 `{trig}`")
         else:
-            st.markdown("- 🟢 All behavioral metrics within normal operating bounds.")
+            st.markdown("🟢 *All behavioral metrics within normal operating bounds.*")
 
         # Interactive Step-Up Challenge Box
         if session_record["state"] == "CHALLENGED":
@@ -556,6 +631,18 @@ with tab_siem:
     st.caption("Common Event Format (CEF) / JSON security audit log stream ready for ingestion into Splunk, Microsoft Sentinel, or Elastic SIEM.")
 
     if enforcer.audit_log:
+        latest = enforcer.audit_log[0]
+        status_col = "#34d399" if latest["action"] == "ALLOW" else ("#fbbf24" if latest["action"] == "CHALLENGE" else "#f87171")
+        st.markdown(f"""
+        <div style="background: rgba(2, 6, 18, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-left: 3px solid #00f2fe; border-radius: 8px; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #94a3b8; line-height: 1.6; margin-bottom: 14px;">
+            <div><span style="color: #38bdf8;">[{latest['timestamp']}]</span> <span style="color: {status_col}; font-weight: 700;">[{latest['action']}]</span> EVENT_ID: {latest['event_id']}</div>
+            <div>&gt; SESSION_REF  : {latest['session_id']} (User: {latest['user_id']})</div>
+            <div>&gt; INGRESS_SRC  : {latest['location']} // {latest['source_ip_asn']}</div>
+            <div>&gt; RISK_SCORE   : {latest['risk_score']}/100 [DECISION: {latest['state']}]</div>
+            <div>&gt; AUDIT_MSG    : {latest['details']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
         df_audit = pd.DataFrame(enforcer.audit_log)
         st.dataframe(
             df_audit[["timestamp", "event_id", "session_id", "user_id", "risk_score", "action", "state", "details"]],
