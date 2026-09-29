@@ -31,7 +31,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Attractive Cyber / Violet & Cyan Glassmorphism Styling with Smooth Scrolling & Animations
+# Violet Dusk Palette Styling (#502D55, #935073, #F6DBC0, #F8F4E9)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -45,10 +45,39 @@ st.markdown("""
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    /* Vibrant Dark Cosmic Background inspired by Violet/Cyan UI */
+    /* Violet Dusk Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0c050e;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #502D55;
+        border-radius: 4px;
+        border: 1px solid rgba(147, 80, 115, 0.3);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #935073;
+    }
+
+    /* Violet Dusk Ambient Gradient Background */
     .stApp {
-        background: radial-gradient(ellipse at 15% 15%, #130d33 0%, #090c1f 45%, #030409 100%) !important;
-        color: #f1f5f9 !important;
+        background: radial-gradient(ellipse at 18% 15%, #2a1530 0%, #170c1b 45%, #0c060e 100%) !important;
+        color: #F8F4E9 !important;
+    }
+
+    /* Sidebar Styled in Violet Dusk */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1e0e22 0%, #110614 100%) !important;
+        border-right: 1px solid rgba(147, 80, 115, 0.3) !important;
+    }
+    section[data-testid="stSidebar"] * {
+        color: #F8F4E9;
+    }
+    section[data-testid="stSidebar"] .stMarkdown p {
+        color: #F6DBC0 !important;
     }
 
     /* Keyframe Animations */
@@ -63,37 +92,37 @@ st.markdown("""
         }
     }
 
-    @keyframes pulse-glow {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
-        70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(139, 92, 246, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+    @keyframes pulse-violet-dusk {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(147, 80, 115, 0.7); }
+        70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(147, 80, 115, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(147, 80, 115, 0); }
     }
 
-    @keyframes live-cyan-pulse {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
-        70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(6, 182, 212, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+    @keyframes pulse-champagne {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(246, 219, 192, 0.7); }
+        70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(246, 219, 192, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(246, 219, 192, 0); }
     }
 
-    /* KPI Metric Cards */
+    /* KPI Metric Cards in Violet Dusk */
     div[data-testid="stMetric"] {
-        background: linear-gradient(135deg, rgba(26, 21, 59, 0.75) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-        backdrop-filter: blur(14px) !important;
-        -webkit-backdrop-filter: blur(14px) !important;
-        border: 1px solid rgba(139, 92, 246, 0.3) !important;
+        background: linear-gradient(135deg, rgba(80, 45, 85, 0.45) 0%, rgba(35, 17, 40, 0.75) 100%) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border: 1px solid rgba(147, 80, 115, 0.38) !important;
         border-radius: 14px !important;
         padding: 16px 22px !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(139, 92, 246, 0.08) !important;
+        box-shadow: 0 8px 32px rgba(12, 5, 14, 0.5), inset 0 0 14px rgba(147, 80, 115, 0.1) !important;
         transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
         animation: cardFadeIn 0.6s ease-out !important;
     }
     div[data-testid="stMetric"]:hover {
-        border-color: rgba(6, 182, 212, 0.6) !important;
-        box-shadow: 0 12px 36px rgba(139, 92, 246, 0.25) !important;
+        border-color: rgba(246, 219, 192, 0.6) !important;
+        box-shadow: 0 12px 36px rgba(147, 80, 115, 0.35) !important;
         transform: translateY(-3px) !important;
     }
     div[data-testid="stMetric"] label {
-        color: #a5b4fc !important;
+        color: #F6DBC0 !important;
         font-weight: 600 !important;
         font-size: 0.82rem !important;
         letter-spacing: 0.06em !important;
@@ -102,7 +131,7 @@ st.markdown("""
     div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
         font-weight: 700 !important;
         font-size: 2.1rem !important;
-        color: #f8fafc !important;
+        color: #F8F4E9 !important;
     }
 
     /* Sticky Quick-Navigation Bar */
@@ -114,19 +143,19 @@ st.markdown("""
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        background: rgba(13, 17, 38, 0.88);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: rgba(27, 13, 32, 0.94);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
         padding: 12px 16px;
         border-radius: 12px;
-        border: 1px solid rgba(139, 92, 246, 0.35);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(246, 219, 192, 0.25);
+        box-shadow: 0 8px 32px rgba(10, 4, 12, 0.6);
         margin: 18px 0 24px 0;
     }
     .nav-chip {
-        color: #cbd5e1 !important;
-        background: rgba(30, 27, 75, 0.65);
-        border: 1px solid rgba(139, 92, 246, 0.35);
+        color: #F8F4E9 !important;
+        background: rgba(80, 45, 85, 0.55);
+        border: 1px solid rgba(246, 219, 192, 0.22);
         padding: 8px 16px;
         border-radius: 8px;
         font-size: 0.88rem;
@@ -138,22 +167,22 @@ st.markdown("""
         transition: all 0.25s ease;
     }
     .nav-chip:hover {
-        color: #38bdf8 !important;
-        background: rgba(6, 182, 212, 0.18);
-        border-color: #06b6d4;
-        box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+        color: #F8F4E9 !important;
+        background: linear-gradient(135deg, #935073 0%, #502D55 100%);
+        border-color: #F6DBC0;
+        box-shadow: 0 0 18px rgba(246, 219, 192, 0.35);
         transform: translateY(-2px);
     }
 
     /* Section Banner Headers */
     .section-card {
-        background: rgba(15, 20, 43, 0.65);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(139, 92, 246, 0.25);
+        background: rgba(40, 19, 45, 0.65);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(147, 80, 115, 0.35);
         border-radius: 14px;
         padding: 22px;
         margin: 28px 0 16px 0;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 8px 30px rgba(10, 4, 12, 0.45);
         animation: cardFadeIn 0.5s ease-out;
     }
 
@@ -163,11 +192,12 @@ st.markdown("""
         gap: 10px;
         font-size: 1.45rem;
         font-weight: 700;
-        color: #f8fafc;
+        color: #F8F4E9;
         margin-bottom: 4px;
     }
     .section-subtitle {
-        color: #94a3b8;
+        color: #F6DBC0;
+        opacity: 0.85;
         font-size: 0.88rem;
         margin-bottom: 12px;
     }
@@ -176,28 +206,28 @@ st.markdown("""
     .pulse-dot-violet {
         height: 10px;
         width: 10px;
-        background-color: #8b5cf6;
+        background-color: #935073;
         border-radius: 50%;
         display: inline-block;
-        box-shadow: 0 0 10px #8b5cf6;
-        animation: pulse-glow 2s infinite;
+        box-shadow: 0 0 10px #935073;
+        animation: pulse-violet-dusk 2s infinite;
         margin-right: 6px;
     }
-    .pulse-dot-cyan {
+    .pulse-dot-champagne {
         height: 10px;
         width: 10px;
-        background-color: #06b6d4;
+        background-color: #F6DBC0;
         border-radius: 50%;
         display: inline-block;
-        box-shadow: 0 0 10px #06b6d4;
-        animation: live-cyan-pulse 2s infinite;
+        box-shadow: 0 0 10px #F6DBC0;
+        animation: pulse-champagne 2s infinite;
         margin-right: 6px;
     }
 
-    /* Decision Box Containers with Violet/Emerald/Amber/Rose Accents */
+    /* Decision Containers */
     .decision-container-allow {
-        background: rgba(8, 47, 35, 0.72);
-        border: 1px solid rgba(16, 185, 129, 0.5);
+        background: rgba(20, 45, 32, 0.72);
+        border: 1px solid rgba(52, 211, 153, 0.5);
         border-radius: 12px;
         padding: 18px 22px;
         box-shadow: 0 8px 30px rgba(16, 185, 129, 0.18);
@@ -205,16 +235,16 @@ st.markdown("""
         animation: cardFadeIn 0.4s ease-out;
     }
     .decision-container-challenge {
-        background: rgba(48, 29, 10, 0.72);
-        border: 1px solid rgba(245, 158, 11, 0.5);
+        background: rgba(80, 45, 85, 0.65);
+        border: 1px solid rgba(246, 219, 192, 0.5);
         border-radius: 12px;
         padding: 18px 22px;
-        box-shadow: 0 8px 30px rgba(245, 158, 11, 0.18);
+        box-shadow: 0 8px 30px rgba(147, 80, 115, 0.25);
         margin-bottom: 14px;
         animation: cardFadeIn 0.4s ease-out;
     }
     .decision-container-revoke {
-        background: rgba(50, 11, 22, 0.75);
+        background: rgba(56, 14, 25, 0.75);
         border: 1px solid rgba(244, 63, 94, 0.55);
         border-radius: 12px;
         padding: 18px 22px;
@@ -225,27 +255,27 @@ st.markdown("""
 
     /* Badges */
     .badge-allow {
-        background: rgba(16, 185, 129, 0.2);
-        color: #34d399;
-        border: 1px solid rgba(52, 211, 153, 0.5);
+        background: rgba(16, 185, 129, 0.25);
+        color: #86efac;
+        border: 1px solid rgba(52, 211, 153, 0.55);
         padding: 5px 12px;
         border-radius: 8px;
         font-weight: 700;
         font-size: 0.85rem;
     }
     .badge-challenge {
-        background: rgba(245, 158, 11, 0.2);
-        color: #fbbf24;
-        border: 1px solid rgba(251, 191, 36, 0.5);
+        background: rgba(147, 80, 115, 0.35);
+        color: #F6DBC0;
+        border: 1px solid rgba(246, 219, 192, 0.55);
         padding: 5px 12px;
         border-radius: 8px;
         font-weight: 700;
         font-size: 0.85rem;
     }
     .badge-revoke {
-        background: rgba(244, 63, 94, 0.2);
-        color: #fb7185;
-        border: 1px solid rgba(251, 113, 133, 0.5);
+        background: rgba(244, 63, 94, 0.25);
+        color: #fca5a5;
+        border: 1px solid rgba(251, 113, 133, 0.55);
         padding: 5px 12px;
         border-radius: 8px;
         font-weight: 700;
@@ -257,27 +287,50 @@ st.markdown("""
         font-size: 0.75rem;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #c084fc;
-        background: rgba(168, 85, 247, 0.12);
-        border: 1px solid rgba(168, 85, 247, 0.3);
+        color: #F6DBC0;
+        background: rgba(80, 45, 85, 0.45);
+        border: 1px solid rgba(246, 219, 192, 0.28);
         padding: 3px 8px;
         border-radius: 6px;
         margin-left: 6px;
     }
 
-    /* Buttons */
+    /* Buttons in Violet Dusk */
     .stButton > button {
         border-radius: 8px;
         font-weight: 600;
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(168, 85, 247, 0.4) !important;
+        background: linear-gradient(135deg, #935073 0%, #502D55 100%) !important;
+        color: #F8F4E9 !important;
+        border: 1px solid rgba(246, 219, 192, 0.35) !important;
         transition: all 0.25s ease !important;
     }
     .stButton > button:hover {
-        box-shadow: 0 0 20px rgba(139, 92, 246, 0.45) !important;
+        box-shadow: 0 0 22px rgba(147, 80, 115, 0.6) !important;
+        border-color: #F6DBC0 !important;
         transform: translateY(-2px) !important;
     }
+
+    /* Expanders in Violet Dusk */
+    details[data-testid="stExpander"] {
+        background: rgba(40, 19, 45, 0.45) !important;
+        border: 1px solid rgba(147, 80, 115, 0.3) !important;
+        border-radius: 12px !important;
+        margin-bottom: 12px !important;
+        transition: all 0.25s ease !important;
+    }
+    details[data-testid="stExpander"]:hover {
+        border-color: rgba(246, 219, 192, 0.5) !important;
+        box-shadow: 0 4px 20px rgba(80, 45, 85, 0.25) !important;
+    }
+    details[data-testid="stExpander"] summary {
+        color: #F8F4E9 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Sliders */
+    div[data-testid="stSlider"] [role="slider"] {
+        background-color: #F6DBC0 !important;
+        box-shadow: 0 0 10px rgba(246, 219, 192, 0.7) !important;
 </style>
 """, unsafe_allow_html=True)
 
@@ -314,10 +367,10 @@ enforcer = st.session_state["enforcer"]
 with st.sidebar:
     st.markdown("""
     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
-        <span class="pulse-dot-violet"></span>
-        <span style="font-weight: 700; letter-spacing: 0.08em; color: #a855f7; font-size: 1.1rem;">AEGISTRUST SOC</span>
+        <span class="pulse-dot-champagne"></span>
+        <span style="font-weight: 700; letter-spacing: 0.08em; color: #F8F4E9; font-size: 1.1rem;">AEGISTRUST SOC</span>
     </div>
-    <div style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 14px;">
+    <div style="color: #F6DBC0; opacity: 0.85; font-size: 0.8rem; margin-bottom: 14px;">
         NIST SP 800-207 Zero-Trust Behavioral Engine
     </div>
     """, unsafe_allow_html=True)
@@ -373,19 +426,19 @@ with st.sidebar:
     }
 
 # ==============================================================================
-# HEADER HERO: VIOLET/CYAN MODERN OPERATIONS BANNER
+# HEADER HERO: VIOLET DUSK OPERATIONS BANNER
 # ==============================================================================
 st.markdown("""
-<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid rgba(139, 92, 246, 0.25); padding-bottom: 16px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid rgba(147, 80, 115, 0.35); padding-bottom: 16px;">
     <div>
         <div style="display: flex; align-items: center; margin-bottom: 6px;">
-            <span class="pulse-dot-cyan"></span>
-            <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #06b6d4; letter-spacing: 0.1em; text-transform: uppercase;">Zero-Trust Telemetry Shield // Public Welfare Registries</span>
+            <span class="pulse-dot-champagne"></span>
+            <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #F6DBC0; letter-spacing: 0.1em; text-transform: uppercase;">Zero-Trust Telemetry Shield // Public Welfare Registries</span>
         </div>
-        <h1 style="margin: 0; font-size: 2.2rem; font-weight: 700; background: linear-gradient(90deg, #ffffff 0%, #c084fc 50%, #38bdf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        <h1 style="margin: 0; font-size: 2.2rem; font-weight: 700; background: linear-gradient(90deg, #F8F4E9 0%, #F6DBC0 50%, #935073 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
             🛡️ Intelligent Zero-Trust Behavioral Authentication
         </h1>
-        <div style="color: #94a3b8; font-size: 0.95rem; margin-top: 4px;">
+        <div style="color: #F6DBC0; opacity: 0.85; font-size: 0.95rem; margin-top: 4px;">
             Continuous, AI-driven post-authentication behavioral profiling & automated step-up enforcement.
         </div>
     </div>
@@ -452,21 +505,21 @@ with col_gauge:
     fig_gauge = go.Figure(go.Indicator(
         mode="gauge+number",
         value=risk_result["risk_score"],
-        title={"text": "Continuous Risk Score", "font": {"size": 22, "color": "#f8fafc", "family": "Space Grotesk"}},
-        number={"suffix": "/100", "font": {"size": 38, "color": risk_result["status_color"], "family": "Space Grotesk"}},
+        title={"text": "Continuous Risk Score", "font": {"size": 20, "color": "#F8F4E9", "family": "Space Grotesk"}},
+        number={"suffix": "/100", "font": {"size": 36, "color": risk_result["status_color"], "family": "Space Grotesk"}},
         gauge={
-            "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#94a3b8"},
-            "bar": {"color": risk_result["status_color"], "thickness": 0.28},
-            "bgcolor": "rgba(26, 21, 59, 0.6)",
+            "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#F6DBC0"},
+            "bar": {"color": risk_result["status_color"], "thickness": 0.3},
+            "bgcolor": "rgba(40, 19, 45, 0.6)",
             "borderwidth": 1,
-            "bordercolor": "rgba(139, 92, 246, 0.3)",
+            "bordercolor": "rgba(147, 80, 115, 0.4)",
             "steps": [
-                {"range": [0, RISK_THRESHOLD_ALLOW], "color": "rgba(16, 185, 129, 0.2)"},
-                {"range": [RISK_THRESHOLD_ALLOW, RISK_THRESHOLD_CHALLENGE], "color": "rgba(245, 158, 11, 0.25)"},
-                {"range": [RISK_THRESHOLD_CHALLENGE, 100], "color": "rgba(244, 63, 94, 0.3)"}
+                {"range": [0, RISK_THRESHOLD_ALLOW], "color": "rgba(80, 45, 85, 0.35)"},
+                {"range": [RISK_THRESHOLD_ALLOW, RISK_THRESHOLD_CHALLENGE], "color": "rgba(147, 80, 115, 0.45)"},
+                {"range": [RISK_THRESHOLD_CHALLENGE, 100], "color": "rgba(244, 63, 94, 0.35)"}
             ],
             "threshold": {
-                "line": {"color": "white", "width": 3},
+                "line": {"color": "#F6DBC0", "width": 3},
                 "thickness": 0.8,
                 "value": risk_result["risk_score"]
             }
@@ -476,7 +529,8 @@ with col_gauge:
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         height=300,
-        margin=dict(l=25, r=25, t=50, b=25)
+        margin=dict(l=25, r=25, t=50, b=25),
+        font=dict(color="#F8F4E9", family="Space Grotesk")
     )
     st.plotly_chart(fig_gauge, use_container_width=True)
 
@@ -491,15 +545,15 @@ with col_decision:
     st.markdown(f"""
     <div class="{card_class}">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 0.08em; color: #a5b4fc; text-transform: uppercase;">Zero-Trust Policy Verdict</span>
+            <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 0.08em; color: #F6DBC0; text-transform: uppercase;">Zero-Trust Policy Verdict</span>
             <span class="{badge_class}">{action} // {tier_title}</span>
         </div>
-        <h3 style="margin: 0 0 10px 0; color: #f8fafc; font-size: 1.25rem;">{risk_result['action_description']}</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.88rem; color: #cbd5e1; margin-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 10px;">
-            <div><span style="color: #94a3b8;">User:</span> <code>{eval_telemetry['user_id']}</code></div>
-            <div><span style="color: #94a3b8;">Role:</span> {eval_telemetry['role']}</div>
-            <div><span style="color: #94a3b8;">Session:</span> <code>{eval_telemetry['session_id']}</code></div>
-            <div><span style="color: #94a3b8;">Location:</span> {eval_telemetry['city']} ({eval_telemetry['asn']})</div>
+        <h3 style="margin: 0 0 10px 0; color: #F8F4E9; font-size: 1.25rem;">{risk_result['action_description']}</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.88rem; color: #F8F4E9; margin-top: 12px; border-top: 1px solid rgba(246, 219, 192, 0.25); padding-top: 10px;">
+            <div><span style="color: #F6DBC0; opacity: 0.85;">User:</span> <code>{eval_telemetry['user_id']}</code></div>
+            <div><span style="color: #F6DBC0; opacity: 0.85;">Role:</span> {eval_telemetry['role']}</div>
+            <div><span style="color: #F6DBC0; opacity: 0.85;">Session:</span> <code>{eval_telemetry['session_id']}</code></div>
+            <div><span style="color: #F6DBC0; opacity: 0.85;">Location:</span> {eval_telemetry['city']} ({eval_telemetry['asn']})</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -547,12 +601,20 @@ with col_xai_plot:
         y="feature",
         orientation="h",
         color="severity",
-        color_discrete_map={"NORMAL": "#10B981", "ELEVATED": "#F59E0B", "HIGH": "#F97316", "CRITICAL": "#F43F5E"},
+        color_discrete_map={"NORMAL": "#502D55", "ELEVATED": "#935073", "HIGH": "#e07a5f", "CRITICAL": "#F43F5E"},
         labels={"z_deviation": "Standard Deviations from Normal (Z-Score)", "feature": "Behavioral Metric"},
         title="Telemetric Anomaly Breakdown (Why the AI Decided This)",
         template="plotly_dark"
     )
-    fig_xai.update_layout(height=350, yaxis={'categoryorder': 'total ascending'}, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+    fig_xai.update_layout(
+        height=350,
+        yaxis={'categoryorder': 'total ascending'},
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#F8F4E9", family="Space Grotesk")
+    )
+    fig_xai.update_xaxes(gridcolor="rgba(147, 80, 115, 0.2)", zerolinecolor="rgba(246, 219, 192, 0.35)")
+    fig_xai.update_yaxes(gridcolor="rgba(147, 80, 115, 0.15)")
     st.plotly_chart(fig_xai, use_container_width=True)
 
 with col_xai_table:
@@ -614,7 +676,7 @@ fig_map = px.scatter_geo(
     hover_name="Admin User",
     hover_data=["Session ID", "Location", "Risk Score", "State"],
     color="State",
-    color_discrete_map={"ACTIVE": "#10B981", "CHALLENGED": "#F59E0B", "REVOKED": "#F43F5E"},
+    color_discrete_map={"ACTIVE": "#10B981", "CHALLENGED": "#F6DBC0", "REVOKED": "#F43F5E"},
     size="Risk Score",
     size_max=22,
     title="Live Geographical Ingress of Admin Sessions",
@@ -623,13 +685,18 @@ fig_map = px.scatter_geo(
 )
 fig_map.update_geos(
     showcountries=True,
-    countrycolor="#334155",
+    countrycolor="#502D55",
     showland=True,
-    landcolor="#181534",
+    landcolor="#241029",
     showocean=True,
-    oceancolor="#090b1c"
+    oceancolor="#0d050f"
 )
-fig_map.update_layout(height=420, margin=dict(l=0, r=0, t=40, b=0), paper_bgcolor="rgba(0,0,0,0)")
+fig_map.update_layout(
+    height=420,
+    margin=dict(l=0, r=0, t=40, b=0),
+    paper_bgcolor="rgba(0,0,0,0)",
+    font=dict(color="#F8F4E9", family="Space Grotesk")
+)
 st.plotly_chart(fig_map, use_container_width=True)
 
 st.dataframe(
@@ -671,8 +738,8 @@ if baseline_csv.exists():
             df_base.sample(n=min(len(df_base), 800), random_state=42),
             x="hour_of_day",
             y="data_download_mb",
-            color_discrete_sequence=["#38bdf8"],
-            opacity=0.5,
+            color_discrete_sequence=["#F6DBC0"],
+            opacity=0.6,
             title="Data Egress (MB) vs Hour of Day (Baseline Workday)",
             labels={"hour_of_day": "Hour of Day (24h)", "data_download_mb": "Download Egress (MB)"},
             template="plotly_dark"
@@ -681,10 +748,17 @@ if baseline_csv.exists():
             x=[eval_telemetry["hour_of_day"]],
             y=[eval_telemetry["data_download_mb"]],
             mode="markers",
-            marker=dict(size=18, color=risk_result["status_color"], symbol="star", line=dict(width=2, color="#ffffff")),
+            marker=dict(size=18, color=risk_result["status_color"], symbol="star", line=dict(width=2, color="#F8F4E9")),
             name="Current Evaluated Session"
         ))
-        fig_scatter1.update_layout(height=350, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+        fig_scatter1.update_layout(
+            height=350,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#F8F4E9", family="Space Grotesk")
+        )
+        fig_scatter1.update_xaxes(gridcolor="rgba(147, 80, 115, 0.2)")
+        fig_scatter1.update_yaxes(gridcolor="rgba(147, 80, 115, 0.2)")
         st.plotly_chart(fig_scatter1, use_container_width=True)
 
     with col_m2:
@@ -692,8 +766,8 @@ if baseline_csv.exists():
             df_base.sample(n=min(len(df_base), 800), random_state=42),
             x="api_calls_per_min",
             y="sensitive_endpoint_ratio",
-            color_discrete_sequence=["#a855f7"],
-            opacity=0.5,
+            color_discrete_sequence=["#935073"],
+            opacity=0.65,
             title="Sensitive Endpoint Ratio vs API Call Velocity",
             labels={"api_calls_per_min": "API Calls / Min", "sensitive_endpoint_ratio": "Sensitive Endpoint Ratio"},
             template="plotly_dark"
@@ -702,10 +776,17 @@ if baseline_csv.exists():
             x=[eval_telemetry["api_calls_per_min"]],
             y=[eval_telemetry["sensitive_endpoint_ratio"]],
             mode="markers",
-            marker=dict(size=18, color=risk_result["status_color"], symbol="star", line=dict(width=2, color="#ffffff")),
+            marker=dict(size=18, color=risk_result["status_color"], symbol="star", line=dict(width=2, color="#F8F4E9")),
             name="Current Evaluated Session"
         ))
-        fig_scatter2.update_layout(height=350, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+        fig_scatter2.update_layout(
+            height=350,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#F8F4E9", family="Space Grotesk")
+        )
+        fig_scatter2.update_xaxes(gridcolor="rgba(147, 80, 115, 0.2)")
+        fig_scatter2.update_yaxes(gridcolor="rgba(147, 80, 115, 0.2)")
         st.plotly_chart(fig_scatter2, use_container_width=True)
 
     st.subheader("Baseline Feature Distribution Statistics (Training Set)")
@@ -729,8 +810,8 @@ if enforcer.audit_log:
     latest = enforcer.audit_log[0]
     status_col = "#34d399" if latest["action"] == "ALLOW" else ("#fbbf24" if latest["action"] == "CHALLENGE" else "#fb7185")
     st.markdown(f"""
-    <div style="background: rgba(14, 11, 33, 0.88); border: 1px solid rgba(139, 92, 246, 0.35); border-left: 3px solid #06b6d4; border-radius: 8px; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 14px;">
-        <div><span style="color: #c084fc;">[{latest['timestamp']}]</span> <span style="color: {status_col}; font-weight: 700;">[{latest['action']}]</span> EVENT_ID: {latest['event_id']}</div>
+    <div style="background: rgba(22, 10, 26, 0.92); border: 1px solid rgba(147, 80, 115, 0.4); border-left: 4px solid #F6DBC0; border-radius: 8px; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #F8F4E9; line-height: 1.6; margin-bottom: 14px;">
+        <div><span style="color: #F6DBC0;">[{latest['timestamp']}]</span> <span style="color: {status_col}; font-weight: 700;">[{latest['action']}]</span> EVENT_ID: {latest['event_id']}</div>
         <div>&gt; SESSION_REF  : {latest['session_id']} (User: {latest['user_id']})</div>
         <div>&gt; INGRESS_SRC  : {latest['location']} // {latest['source_ip_asn']}</div>
         <div>&gt; RISK_SCORE   : {latest['risk_score']}/100 [DECISION: {latest['state']}]</div>
